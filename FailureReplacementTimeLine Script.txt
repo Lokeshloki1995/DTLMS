@@ -1,0 +1,114 @@
+
+
+Made changes on:
+FailureReplacementTimeLine.aspx
+FailureReplacementTimeLine.aspx.cs
+clsFailureRepTimeLine.cs
+
+
+
+---------------------------
+CREATE OR REPLACE FUNCTION "public"."proc_load_all_details_failure_replacement_time_line_report"("from_date" text, "to_date" text, "circle_digit" text, "div_digit" text, "subdiv_digit" text, "section_digit" text)
+  RETURNS TABLE("CIRCLECODE" text, "CIRCLE" text, "DIVISIONCODE" text, "DIVISION" text, "SUBDIVISIONCODE" text, "SUBDIVISION" text, "SECTIONCODE" text, "SECTION" text, "LESSTHAN1DAY" numeric, "BW1TO7" numeric, "BW7TO15" numeric, "BW15TO30" numeric, "ABOVE30" numeric, "TOTAL" int4, "LESSTHAN1DAYNEW" numeric, "BW1TO7NEW" numeric, "BW7TO15NEW" numeric, "BW15TO30NEW" numeric, "ABOVE30NEW" numeric, "TOTALNEW" int4) AS $BODY$
+ DECLARE
+	fetch_statement TEXT;
+	
+BEGIN
+fetch_statement := ' 
+
+SELECT  "CIRCLECODE","CIRCLE","DIVISIONCODE","DIVISION", "SUBDIVISIONCODE","SUBDIVISION","SECTIONCODE", "SECTION","LESSTHAN1DAY", "BW1TO7","BW7TO15","BW15TO30", "ABOVE30", COALESCE("TOTAL",0)"TOTAL","LESSTHAN1DAYNEW","BW1TO7NEW","BW7TO15NEW","BW15TO30NEW","ABOVE30NEW",COALESCE("TOTALNEW",0)"TOTALNEW"          FROM (
+
+SELECT COALESCE("CircleCode", "CircleCode1")"CIRCLECODE", COALESCE("CIRCLE","CIRCLE1") "CIRCLE", COALESCE("DivisionCode","DivisionCode1")"DIVISIONCODE", 
+                 COALESCE("Division", "DivisionName1")"DIVISION", COALESCE("SubDivisionCode","SubDivisionCode1")  "SUBDIVISIONCODE", COALESCE("SUBDIVISION","SubDivisionName1")"SUBDIVISION", 
+                 COALESCE("sectioncode", "sectioncode1")"SECTIONCODE", COALESCE("SECTION", "SectionName1")"SECTION", COALESCE("LESSTHAN1DAY", 0)"LESSTHAN1DAY",  COALESCE("BW1TO7", 0) "BW1TO7", 
+                 COALESCE("BW7TO15", 0)"BW7TO15", COALESCE("BW15TO30", 0)"BW15TO30", COALESCE("ABOVE30", 0)"ABOVE30", CAST("LESSTHAN1DAY" + CAST("BW1TO7" + CAST("BW7TO15"  AS INT) + CAST("BW15TO30"  AS INT) + CAST("ABOVE30"  AS INT)  AS INT)  AS INT) "TOTAL"  
+								 , COALESCE("LESSTHAN1DAYNEW", 0)"LESSTHAN1DAYNEW", 
+                 COALESCE("BW1TO7NEW", 0)"BW1TO7NEW", COALESCE("BW7TO15NEW", 0)"BW7TO15NEW", COALESCE("BW15TO30NEW", 0)"BW15TO30NEW",  COALESCE("ABOVE30NEW", 0)"ABOVE30NEW", 
+CAST("LESSTHAN1DAYNEW" + CAST("BW1TO7NEW" + CAST("BW7TO15NEW"  AS INT) + CAST("BW15TO30NEW"  AS INT) + CAST("ABOVE30NEW"  AS INT)  AS INT)  AS INT)   "TOTALNEW"  	  
+								 
+                 FROM(SELECT "CircleCode", "CIRCLE","DivisionCode", "DivisionName" as "Division", "SubDivisionName" as "SUBDIVISION", "SubDivisionCode", "SectionName" as "SECTION", "sectioncode", 
+                 SUM("LESSTHAN1")"LESSTHAN1DAY",  SUM("BETWEEN1TO7")"BW1TO7", SUM("BETWEEN7TO15")"BW7TO15", SUM("BETWEEN15TO30")"BW15TO30", SUM("ABOVE30")"ABOVE30"
+                 FROM ( SELECT(SELECT SUBSTR("OFF_NAME", STRPOS("OFF_NAME", '':'') + 1)  FROM "VIEW_ALL_OFFICES" WHERE  CAST("OFF_CODE" AS TEXT) = SUBSTR(cast("DF_LOC_CODE" as text), 1, '''||"circle_digit"||'''))  "CIRCLE", 
+                 SUBSTR(cast("DF_LOC_CODE" as text), 1, '''||"circle_digit"||''')"CircleCode", (SELECT SUBSTR("OFF_NAME", strpos("OFF_NAME", '':'') + 1) FROM "VIEW_ALL_OFFICES" WHERE  CAST("OFF_CODE" AS TEXT) = SUBSTR(cast("DF_LOC_CODE" as text),1, '''||"div_digit"||''')) "DivisionName", 
+                 SUBSTR(cast("DF_LOC_CODE" as text), 1, '''||"div_digit"||''')"DivisionCode", (SELECT SUBSTR("OFF_NAME",  strpos("OFF_NAME", '':'') + 1) FROM "VIEW_ALL_OFFICES" WHERE  CAST("OFF_CODE" AS TEXT) = SUBSTR(cast("DF_LOC_CODE" as text), 1,  '''||"subdiv_digit"||''')) "SubDivisionName", 
+                 SUBSTR(cast("DF_LOC_CODE" as text), 1, '''||"subdiv_digit"||''')"SubDivisionCode", (SELECT SUBSTR("OFF_NAME" , strpos("OFF_NAME", '':'') + 1)   FROM "VIEW_ALL_OFFICES"   WHERE CAST("OFF_CODE" AS TEXT) = SUBSTR(cast("DF_LOC_CODE" as text) , 1, '''||"section_digit"||''')) "SectionName", 
+                 SUBSTR(cast("DF_LOC_CODE"  as text), 1, '''||"section_digit"||''')sectioncode,   CASE WHEN("IN_DATE" - "DF_DATE") BETWEEN 0 AND 1 THEN  COUNT(*) ELSE 0 END "LESSTHAN1", CASE   WHEN("IN_DATE" - "DF_DATE")  BETWEEN 2 AND 7 THEN  
+                 COUNT(*) ELSE 0 END  "BETWEEN1TO7", CASE   WHEN("IN_DATE" - "DF_DATE")  BETWEEN 8 AND 15 THEN  COUNT(*) ELSE 0  END "BETWEEN7TO15", CASE WHEN("IN_DATE" - "DF_DATE")  BETWEEN 16 AND 30 THEN  COUNT(*) ELSE 0 END "BETWEEN15TO30", 
+                 CASE  WHEN("IN_DATE" - "DF_DATE") > 30 THEN  COUNT("DF_DTC_CODE") ELSE 0 END "ABOVE30", "FD_FEEDER_NAME"  FROM "TBLFEEDERMAST" INNER JOIN "TBLDTCMAST" ON  "DT_FDRSLNO" = "FD_FEEDER_CODE" INNER JOIN "TBLDTCFAILURE"  
+                 ON "DF_DTC_CODE" = "DT_CODE" INNER JOIN   "TBLWORKORDER" ON "DF_ID" = "WO_DF_ID" INNER JOIN  "TBLINDENT" ON  "WO_SLNO" = "TI_WO_SLNO" INNER JOIN "TBLDTCINVOICE"  ON "TI_ID" = "IN_TI_NO"  AND  "DF_STATUS_FLAG" IN(1, 4) '; 
+	 
+	 if ("from_date" !='' and "to_date" !='' ) THEN
+	 
+	 	 fetch_statement:=fetch_statement||' AND TO_CHAR("DF_DATE",''YYYYMMDD'')>='''||"from_date"||''' AND TO_CHAR("DF_DATE",''YYYYMMDD'')<='''||"to_date"||''' ' ;
+
+	 
+	 else if ("from_date" != '' and  "to_date" = '') THEN
+	 
+					fetch_statement:=fetch_statement||' AND TO_CHAR("DF_DATE",''YYYYMMDD'')>='''||"from_date"||''' AND TO_CHAR("DF_DATE",''YYYYMMDD'')<='''||"to_date"||'''	'  ;
+
+
+	 
+	else if ("from_date" = '' and   "to_date" != '') THEN
+	
+	fetch_statement:=fetch_statement||' 	AND TO_CHAR("DF_DATE",''YYYYMMDD'')<='''||"to_date"||''' '  ;
+
+	END IF;
+		 END IF;
+		 	 		 END IF;
+
+
+		 
+		 	fetch_statement:=fetch_statement||'  GROUP BY "DF_ID","DF_DATE", "IN_DATE", "DF_LOC_CODE", "DF_DTC_CODE", "FD_FEEDER_NAME" ) A  
+                  GROUP BY "CIRCLE","CircleCode",  "DivisionCode","DivisionName","SubDivisionName","SubDivisionCode","SectionName","sectioncode" ORDER BY "CircleCode", 
+                 "DivisionCode","SubDivisionCode")A FULL OUTER JOIN   (SELECT "DivisionCode1","DivisionName1","SubDivisionName1","SubDivisionCode1", "SectionName1","sectioncode1", 
+                 "CircleCode" AS  "CircleCode1", "CIRCLE" AS "CIRCLE1", SUM("LESSTHAN1")"LESSTHAN1DAYNEW",  SUM("BETWEEN1TO7")"BW1TO7NEW", SUM("BETWEEN7TO15")"BW7TO15NEW", 
+                 SUM("BETWEEN15TO30")"BW15TO30NEW", SUM("ABOVE30")"ABOVE30NEW" FROM ( SELECT "DF_ID", (SELECT SUBSTR("OFF_NAME", strpos("OFF_NAME", '':'') + 1) 
+                 FROM "VIEW_ALL_OFFICES"  WHERE  CAST("OFF_CODE" AS TEXT) = SUBSTR(cast("DF_LOC_CODE" as text), 1, '''||"circle_digit"||''')) "CIRCLE", SUBSTR(cast("DF_LOC_CODE" as text), 1,  '''||"circle_digit"||''')"CircleCode", 
+                 (SELECT  SUBSTR("OFF_NAME", strpos("OFF_NAME", '':'') + 1) FROM "VIEW_ALL_OFFICES" WHERE  CAST("OFF_CODE" AS TEXT) = SUBSTR(cast("DF_LOC_CODE" as text),1,  '''||"div_digit"||''')) 
+                 "DivisionName1",SUBSTR(CAST("DF_LOC_CODE" AS TEXT), 1, '''||"div_digit"||''')"DivisionCode1",(SELECT SUBSTR("OFF_NAME", strpos("OFF_NAME", '':'') + 1) FROM  "VIEW_ALL_OFFICES" 
+                 WHERE CAST("OFF_CODE" AS TEXT) = SUBSTR(CAST("DF_LOC_CODE" AS TEXT), 1, '''||"subdiv_digit"||'''))"SubDivisionName1", SUBSTR(CAST("DF_LOC_CODE" AS TEXT), 1, '''||"subdiv_digit"||''') "SubDivisionCode1", 
+                 (SELECT SUBSTR("OFF_NAME", strpos("OFF_NAME", '':'') + 1)   FROM "VIEW_ALL_OFFICES" WHERE CAST("OFF_CODE" AS TEXT)= SUBSTR(CAST("DF_LOC_CODE" AS TEXT), 1, '''||"section_digit"||''')) "SectionName1", 
+                 SUBSTR(CAST("DF_LOC_CODE" AS TEXT), 1, '''||"section_digit"||''')  "sectioncode1",  CASE WHEN  (CURRENT_DATE - "DF_DATE")  BETWEEN 0 AND 1 THEN COUNT(*)  ELSE 0 END "LESSTHAN1", CASE WHEN(CURRENT_DATE - "DF_DATE") 
+                 BETWEEN 2 AND 7 THEN  COUNT(*) ELSE 0 END "BETWEEN1TO7", CASE WHEN(CURRENT_DATE - "DF_DATE")  BETWEEN 8 AND 15 THEN  COUNT(*) ELSE 0 END "BETWEEN7TO15", CASE WHEN(CURRENT_DATE - "DF_DATE") 
+                 BETWEEN 16 AND 30 THEN    COUNT(*) ELSE 0 END "BETWEEN15TO30", CASE   WHEN(CURRENT_DATE - "DF_DATE") > 30 THEN  COUNT("DF_DTC_CODE") ELSE 0 END "ABOVE30", "FD_FEEDER_NAME"
+                 FROM "TBLFEEDERMAST" INNER JOIN "TBLDTCMAST" ON  "DT_FDRSLNO" = "FD_FEEDER_CODE" INNER JOIN   "TBLDTCFAILURE"   ON "DF_DTC_CODE" = "DT_CODE"  AND  "DF_REPLACE_FLAG" <> 1 AND  "DF_STATUS_FLAG"  IN(1, 4)	'  ;
+								 
+ if ("from_date" !='' and "to_date" !='' ) THEN
+	 
+	 	 fetch_statement:=fetch_statement||' AND TO_CHAR("DF_DATE",''YYYYMMDD'')>='''||"from_date"||''' AND TO_CHAR("DF_DATE",''YYYYMMDD'')<='''||"to_date"||''' ' ;
+
+	 
+	 else if ("from_date" != '' and  "to_date" = '') THEN
+	 
+					fetch_statement:=fetch_statement||' AND TO_CHAR("DF_DATE",''YYYYMMDD'')>='''||"from_date"||''' AND TO_CHAR("DF_DATE",''YYYYMMDD'')<='''||"to_date"||'''	'  ;
+
+	 
+	else if ("from_date" = '' and  "to_date" != '') THEN
+	
+	fetch_statement:=fetch_statement||' 	AND TO_CHAR("DF_DATE",''YYYYMMDD'')<='''||"to_date"||''' '  ;
+
+	END IF;
+		 END IF;
+		 	 END IF;
+
+		 
+	fetch_statement:=fetch_statement||'	 GROUP BY "DF_ID", "DF_DATE","DF_LOC_CODE", "DF_DTC_CODE","FD_FEEDER_NAME")S   LEFT JOIN "TBLTCDRAWN" ON "DF_ID" = "TD_DF_ID"  where 
+                  "TD_DF_ID" IS NULL GROUP BY "CIRCLE", "CircleCode", "DivisionCode1", "DivisionName1", "SubDivisionName1", "SubDivisionCode1", "SectionName1", "sectioncode1" ORDER BY "CircleCode","DivisionCode1")B on   A."CircleCode" = B."CircleCode1" and A."DivisionCode" = B."DivisionCode1"    and A."SubDivisionCode" = b."SubDivisionCode1" and A."sectioncode" = B."sectioncode1" ORDER BY  COALESCE("sectioncode","sectioncode1") ) A '  ;
+								 
+								 
+								 
+raise info 'Query %', fetch_statement;
+
+	
+RETURN QUERY EXECUTE fetch_statement;
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_load_all_details_failure_replacement_time_line_report"("from_date" text, "to_date" text, "circle_digit" text, "div_digit" text, "subdiv_digit" text, "section_digit" text) OWNER TO "postgres";
+
+
+
+------------------------------------------------1

@@ -1,0 +1,260 @@
+
+
+given  host  for  :
+
+dashboard.aspx.cs
+clsdashborad.cs
+failurependingOverview.aspx.cs
+
+
+------------------------
+CREATE OR REPLACE FUNCTION "public"."proc_load_failure_pending_details"("ofc_code" text)
+  RETURNS TABLE("DT_CODE" varchar, "DT_NAME" varchar, "OMSECTION" text, "OM_CODE" int4, "SUBDIVSION" text, "DIVSION" text, "DF_ID" int8, "DF_DATE" text, "FL_STATUS" text) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT distinct "DT_CODE","DT_NAME",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES"  where "OFF_CODE"="TRANS_REF_OFF_CODE") as "OMSECTION","TRANS_REF_OFF_CODE" AS "OM_CODE",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2, length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,4)) as "SUBDIVSION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,3)) as "DIVSION","DF_ID", TO_CHAR("DF_DATE",''dd-MON-yyyy'')"DF_DATE",''PENDING WITH ''||"RO_NAME" ||'' SINCE ''||date_part(''day'',age(CURRENT_DATE,CAST("TRANS_UPDATE_DATE" AS DATE)))||'' Days'' as  "FL_STATUS"   from "TBLPENDINGTRANSACTION" inner join "TBLROLES" on "RO_ID"="TRANS_NEXT_ROLE_ID"  inner join "TBLDTCMAST" on "DT_CODE"="TRANS_DTC_CODE" left join  "TBLDTCFAILURE"  on "DF_DTC_CODE"="TRANS_DTC_CODE" and  "DF_REPLACE_FLAG"=0 where "TRANS_BO_ID" NOT IN (15,26,10,71,72,75,76,77,78,79) AND CAST("TRANS_REF_OFF_CODE" AS TEXT) LIKE '''||"ofc_code"||'%'' and "TRANS_NEXT_ROLE_ID"<>0 ';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_load_failure_pending_details"("ofc_code" text) OWNER TO "postgres";
+
+---------------------------------------------1
+
+CREATE OR REPLACE FUNCTION "public"."proc_get_failure_count"("ofc_code" text)
+  RETURNS TABLE("TOTA_DTC_FAILURE" int8) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT  count(distinct "TRANS_DTC_CODE") AS "TOTA_DTC_FAILURE" from "TBLPENDINGTRANSACTION" WHERE "TRANS_BO_ID"  in(45,11,13)  and CAST("TRANS_REF_OFF_CODE" AS TEXT) like '''||"ofc_code"||'%'' and "TRANS_NEXT_ROLE_ID"<>0';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_get_failure_count"("ofc_code" text) OWNER TO "postgres";
+
+------------------------------2
+CREATE OR REPLACE FUNCTION "public"."proc_load_estimation_pend_details"("ofc_code" text)
+  RETURNS TABLE("DT_CODE" varchar, "DT_NAME" varchar, "DF_EQUIPMENT_ID" varchar, "OMSECTION" text, "SUBDIVSION" text, "DIVSION" text, "DF_DATE" text, "DAYS_FROM_PENDING" text) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT "DT_CODE","DT_NAME","DF_EQUIPMENT_ID",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where "OFF_CODE"="TRANS_REF_OFF_CODE") as "OMSECTION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,4)) as "SUBDIVSION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,3)) as "DIVSION",TO_CHAR("DF_DATE",''dd-MON-yyyy'')"DF_DATE",''PENDING WITH ''||"RO_NAME" ||'' SINCE '' ||date_part(''day'',age(CURRENT_DATE,CAST("TRANS_UPDATE_DATE" AS DATE)))||'' Days'' as "DAYS_FROM_PENDING" from "TBLPENDINGTRANSACTION" inner join "TBLDTCMAST" on "DT_CODE"="TRANS_DTC_CODE" inner join "TBLDTCFAILURE" on "DF_DTC_CODE"="TRANS_DTC_CODE" and  "DF_REPLACE_FLAG"=0  INNER JOIN "TBLROLES" ON "RO_ID"="TRANS_NEXT_ROLE_ID" where "TRANS_BO_ID"  in(45) AND CAST("TRANS_REF_OFF_CODE" AS TEXT) LIKE '''||"ofc_code"||'%'' order by CAST("DF_DATE" AS TIMESTAMP) desc';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_load_estimation_pend_details"("ofc_code" text) OWNER TO "postgres";
+
+-----------------------------3
+
+CREATE OR REPLACE FUNCTION "public"."proc_get_failure_pend_counts"("ofc_code" text)
+  RETURNS TABLE("FAILURE_APPROVE" int8, "PENDING_ESTIMATION" int8, "PENDING_RI" int8, "PENDING_CR" int8, "PENDING_MAJOR_INV" int8, "PEN_MULTI_COIL_WOR" int8) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT COALESCE(SUM(CASE WHEN "TRANS_BO_ID" = 9 THEN 1 ELSE 0 END ),0)AS "FAILURE_APPROVE",COALESCE(SUM(CASE WHEN "TRANS_BO_ID" in(45)  and "TRANS_NEXT_ROLE_ID"<>0 THEN 1 ELSE 0 END ),0) AS "PENDING_ESTIMATION",COALESCE(SUM(CASE WHEN "TRANS_BO_ID" IN(15) and "TRANS_NEXT_ROLE_ID"<>0  THEN 1 ELSE 0 END ),0) AS "PENDING_RI",COALESCE(SUM(CASE WHEN "TRANS_BO_ID" IN(26) and "TRANS_NEXT_ROLE_ID"<>0  THEN 1 ELSE 0 END ),0) AS "PENDING_CR",COALESCE(SUM(CASE WHEN "TRANS_BO_ID"in(13) and "TRANS_NEXT_ROLE_ID"<>0 THEN 1 ELSE 0 END ),0) AS "PENDING_MAJOR_INV", COALESCE(SUM(CASE WHEN  "TRANS_BO_ID" in(11) and "TRANS_NEXT_ROLE_ID"<>0 THEN 1 ELSE 0 END ),0)AS "PEN_MULTI_COIL_WOR" FROM "TBLPENDINGTRANSACTION" WHERE CAST("TRANS_REF_OFF_CODE" AS TEXT) LIKE '''||"ofc_code"||'%'' and  "TRANS_NEXT_ROLE_ID"<>0';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_get_failure_pend_counts"("ofc_code" text) OWNER TO "postgres";
+
+
+------------------------------4
+
+
+CREATE OR REPLACE FUNCTION "public"."proc_load_work_order_pend_details"("ofc_code" text)
+  RETURNS TABLE("DT_CODE" varchar, "DT_NAME" varchar, "DF_EQUIPMENT_ID" varchar, "OMSECTION" text, "SUBDIVSION" text, "DIVSION" text, "DF_ID" int8, "DF_DATE" text, "DAYS_FROM_PENDING" text) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT "DT_CODE","DT_NAME","DF_EQUIPMENT_ID",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES"   where "OFF_CODE"="TRANS_REF_OFF_CODE") as "OMSECTION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES"  where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,4)) as "SUBDIVSION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,3)) as "DIVSION","DF_ID",TO_CHAR("DF_DATE",''dd-MON-yyyy'')"DF_DATE",''PENDING WITH ''  ||"RO_NAME" ||'' SINCE ''||date_part(''day'',age(CURRENT_DATE,CAST("TRANS_UPDATE_DATE" AS DATE)))||'' Days'' as "DAYS_FROM_PENDING" from "TBLPENDINGTRANSACTION" inner join "TBLDTCMAST"   on "DT_CODE"="TRANS_DTC_CODE" left join  "TBLDTCFAILURE" on "DF_DTC_CODE"="TRANS_DTC_CODE" and  "DF_REPLACE_FLAG"=0 left JOIN "TBLESTIMATIONDETAILS" on "DF_ID"="EST_FAILUREID" and "EST_FAIL_TYPE"=''2''  INNER JOIN "TBLROLES" ON "RO_ID"="TRANS_NEXT_ROLE_ID" where "TRANS_BO_ID" in(11,74) and CAST("TRANS_REF_OFF_CODE" AS TEXT) LIKE '''||"ofc_code"||'%'' order by CAST("DF_DATE" AS TIMESTAMP) desc';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_load_work_order_pend_details"("ofc_code" text) OWNER TO "postgres";
+
+----------------------------------------5
+
+
+CREATE OR REPLACE FUNCTION "public"."proc_load_invoice_pend_details"("ofc_code" text)
+  RETURNS TABLE("DT_CODE" varchar, "DT_NAME" varchar, "DF_EQUIPMENT_ID" varchar, "WO_NO" varchar, "WO_DATE" text, "OMSECTION" text, "SUBDIVSION" text, "DIVSION" text, "DF_ID" int8, "DF_DATE" text, "DAYS_FROM_PENDING" text) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT "DT_CODE","DT_NAME","DF_EQUIPMENT_ID","WO_NO",to_char("WO_DATE",''dd-MON-yyyy'')"WO_DATE", (select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where "OFF_CODE"="TRANS_REF_OFF_CODE") as "OMSECTION", (select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,4)) as "SUBDIVSION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,3)) as "DIVSION",  "DF_ID",TO_CHAR("DF_DATE",''dd-MON-yyyy'')"DF_DATE",''PENDING WITH ''||"RO_NAME" ||'' SINCE ''||date_part(''day'',age(CURRENT_DATE,CAST("TRANS_UPDATE_DATE" AS DATE)))||'' Days'' as "DAYS_FROM_PENDING"   from "TBLPENDINGTRANSACTION" inner join "TBLDTCMAST" on "DT_CODE"="TRANS_DTC_CODE" inner join  "TBLDTCFAILURE" on "DF_DTC_CODE"="TRANS_DTC_CODE" and  "DF_REPLACE_FLAG"=0 INNER JOIN "TBLWORKORDER"   ON "DF_ID"="WO_DF_ID" INNER JOIN "TBLROLES" ON "RO_ID"="TRANS_NEXT_ROLE_ID" where "TRANS_BO_ID" =''13'' and CAST("TRANS_REF_OFF_CODE" AS TEXT) LIKE '''||"ofc_code"||'%'' and "TRANS_NEXT_ROLE_ID"<>0 order by CAST("DF_DATE" AS TIMESTAMP) desc';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_load_invoice_pend_details"("ofc_code" text) OWNER TO "postgres";
+
+
+-----------------------------------6
+
+CREATE OR REPLACE FUNCTION "public"."proc_ri_pend_details"("ofc_code" text)
+  RETURNS TABLE("DT_CODE" varchar, "DT_NAME" varchar, "DT_TC_ID" varchar, "DF_EQUIPMENT_ID" varchar, "OMSECTION" text, "SUBDIVSION" text, "DIVSION" text, "DAYS_FROM_PENDING" text) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT "DT_CODE","DT_NAME", "TD_TC_NO" AS "DT_TC_ID","DF_EQUIPMENT_ID",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME"))  from "VIEW_ALL_OFFICES" where "OFF_CODE"="TRANS_REF_OFF_CODE") as "OMSECTION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES"  where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,4)) as "SUBDIVSION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,3)) as "DIVSION",CASE WHEN "TRANS_BO_ID"=15 THEN ''PENDING WITH ''||"RO_NAME" || '' SINCE '' ||date_part(''day'',age(CURRENT_DATE,CAST("TRANS_UPDATE_DATE" AS DATE)))||'' Days''  END AS "DAYS_FROM_PENDING"  from "TBLPENDINGTRANSACTION" inner join "TBLDTCMAST" on "DT_CODE"="TRANS_DTC_CODE"  inner join "TBLDTCFAILURE" on "TRANS_DTC_CODE"="DF_DTC_CODE"  INNER JOIN "TBLROLES" ON "TRANS_NEXT_ROLE_ID"="RO_ID"  LEFT JOIN "TBLTCDRAWN" ON "DF_ID"="TD_DF_ID" where "TRANS_BO_ID" in (15) and CAST("TRANS_REF_OFF_CODE" AS TEXT) LIKE '''||"ofc_code"||'%'' order by CAST("DF_DATE" AS TIMESTAMP) desc';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_ri_pend_details"("ofc_code" text) OWNER TO "postgres";
+
+---------------------------------------7
+CREATE OR REPLACE FUNCTION "public"."proc_load_cr_pend_details"("ofc_code" text)
+  RETURNS TABLE("DT_CODE" varchar, "DT_NAME" varchar, "DT_TC_ID" varchar, "DF_EQUIPMENT_ID" varchar, "OMSECTION" text, "SUBDIVSION" text, "DIVSION" text, "CR_DAYS_FROM_PENDING" text) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT "DT_CODE","DT_NAME","TD_TC_NO" AS "DT_TC_ID","DF_EQUIPMENT_ID",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME"))  from "VIEW_ALL_OFFICES" where "OFF_CODE"="TRANS_REF_OFF_CODE") as "OMSECTION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES"  where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,4)) as "SUBDIVSION",(select substring("OFF_NAME",position('':'' in "OFF_NAME")+2,length("OFF_NAME")) from "VIEW_ALL_OFFICES" where cast("OFF_CODE" as text)=SUBSTRING(cast("TRANS_REF_OFF_CODE" as text),1,3)) as "DIVSION", CASE WHEN "TRANS_BO_ID"=26 THEN ''PENDING WITH ''||"RO_NAME" ||   '' SINCE '' ||date_part(''day'',age(CURRENT_DATE,CAST("TRANS_UPDATE_DATE" AS DATE)))||'' Days''  END AS "CR_DAYS_FROM_PENDING"  from "TBLPENDINGTRANSACTION" inner join "TBLDTCMAST" on "DT_CODE"="TRANS_DTC_CODE"  inner join "TBLDTCFAILURE" on "TRANS_DTC_CODE"="DF_DTC_CODE"  INNER JOIN "TBLROLES" ON "TRANS_NEXT_ROLE_ID"="RO_ID" LEFT JOIN "TBLTCDRAWN" ON "DF_ID"="TD_DF_ID" where "TRANS_BO_ID" in (26) and CAST("TRANS_REF_OFF_CODE" AS TEXT) LIKE '''||"ofc_code"||'%''and "DF_REPLACE_FLAG"<>1 order by CAST("DF_DATE" AS TIMESTAMP) desc';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."proc_load_cr_pend_details"("ofc_code" text) OWNER TO "postgres";
+
+---------------------------------8
+
+
+CREATE OR REPLACE FUNCTION "public"."dashboard_get_total_count_work_flow"("ofc_code" text, "role_id" text)
+  RETURNS TABLE("COUNT_TOTAL_WORK_FLOW" int8) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT "TOTAL_PENDING"+"APPROVED"+"REJECTED" as "COUNT_TOTAL_WORK_FLOW" FROM  (SELECT A."WFOTABLE"+B."AUTOTABLE" AS "TOTAL_PENDING" FROM  (SELECT COUNT(*) "WFOTABLE"  FROM "TBLWORKFLOWOBJECTS" WHERE CAST("WO_REF_OFFCODE" AS TEXT)  LIKE 	'''||"ofc_code"||'%''   AND "WO_APPROVE_STATUS" =''0'' AND "WO_NEXT_ROLE"::text ='''||"role_id"||''') A, (SELECT COUNT(*) "AUTOTABLE" FROM "TBLWO_OBJECT_AUTO" WHERE CAST("WOA_REF_OFFCODE" AS TEXT)  LIKE 	'''||"ofc_code"||'%''  AND "WOA_INITIAL_ACTION_ID" IS NULL AND "WOA_ROLE_ID"::text ='''||"role_id"||''' ) B ) X, (SELECT "APPROVED"+"APPROVED_AUTO" AS "APPROVED" FROM (SELECT COUNT(*) "APPROVED"  FROM "TBLWORKFLOWOBJECTS" WHERE CAST("WO_REF_OFFCODE" AS TEXT) LIKE  	'''||"ofc_code"||'%''   AND "WO_APPROVE_STATUS" IN (''1'',''2'') AND "WO_NEXT_ROLE"::text ='''||"role_id"||''') A, (SELECT COUNT(*) "APPROVED_AUTO"  FROM "TBLWO_OBJECT_AUTO" WHERE CAST("WOA_REF_OFFCODE" AS TEXT) LIKE  	'''||"ofc_code"||'%'' AND "WOA_INITIAL_ACTION_ID" IS NOT NULL AND "WOA_ROLE_ID"::text='''||"role_id"||''') B) Y, (SELECT COUNT(*) AS "REJECTED"  FROM "TBLWORKFLOWOBJECTS" WHERE CAST("WO_REF_OFFCODE" AS TEXT) LIKE  	'''||"ofc_code"||'%''  AND "WO_APPROVE_STATUS" =''3'' AND "WO_NEXT_ROLE"::text ='''||"role_id"||''') Z';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."dashboard_get_total_count_work_flow"("ofc_code" text, "role_id" text) OWNER TO "postgres";
+
+---------------------------------------------------9
+
+CREATE OR REPLACE FUNCTION "public"."dashboard_get_pend_count_work_flow"("ofc_code" text, "role_id" text)
+  RETURNS TABLE("TOTAL_PENDING" int8) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:='SELECT "WFOTABLE"+"AUTOTABLE" AS "TOTAL_PENDING" FROM  (SELECT COUNT(*) "WFOTABLE"  FROM "TBLWORKFLOWOBJECTS" WHERE CAST("WO_REF_OFFCODE" AS TEXT)  LIKE '''||"ofc_code"||'%''   AND "WO_APPROVE_STATUS" =''0'' AND "WO_NEXT_ROLE" ='''||"role_id"||''') A,   (SELECT COUNT(*) "AUTOTABLE" FROM "TBLWO_OBJECT_AUTO" WHERE CAST("WOA_REF_OFFCODE" AS TEXT)  LIKE '''||"ofc_code"||'%''  AND "WOA_INITIAL_ACTION_ID" IS NULL AND "WOA_ROLE_ID" ='''||"role_id"||''' ) B ';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."dashboard_get_pend_count_work_flow"("ofc_code" text, "role_id" text) OWNER TO "postgres";
+
+-----------------10
+
+CREATE OR REPLACE FUNCTION "public"."dashboard_get_approved_count_work_flow"("ofc_code" text, "role_id" text)
+  RETURNS TABLE("TOTAL_APPROVED" int8) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:=' SELECT "APPROVED"+"APPROVED_AUTO" AS "TOTAL_APPROVED" FROM (SELECT COUNT(*) "APPROVED"  FROM "TBLWORKFLOWOBJECTS" WHERE CAST("WO_REF_OFFCODE" AS TEXT) LIKE  '''||"ofc_code"||'%''    AND "WO_APPROVE_STATUS" IN (''1'',''2'') AND "WO_NEXT_ROLE" ='''||"role_id"||''') A, (SELECT COUNT(*) "APPROVED_AUTO"  FROM "TBLWO_OBJECT_AUTO" WHERE CAST("WOA_REF_OFFCODE" AS TEXT) LIKE  '''||"ofc_code"||'%''  AND "WOA_INITIAL_ACTION_ID" IS NOT NULL AND "WOA_ROLE_ID" ='''||"role_id"||''') B';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."dashboard_get_approved_count_work_flow"("ofc_code" text, "role_id" text) OWNER TO "postgres";
+
+------------------------11
+
+
+CREATE OR REPLACE FUNCTION "public"."dashboard_get_rejected_count_work_flow"("ofc_code" text, "role_id" text)
+  RETURNS TABLE("REJECTED" int8) AS $BODY$
+	DECLARE v_selQry Text;
+BEGIN
+v_selQry:=' SELECT COUNT(*) "REJECTED"  FROM "TBLWORKFLOWOBJECTS" WHERE CAST("WO_REF_OFFCODE" AS TEXT) LIKE  '''||"ofc_code"||'%''   AND "WO_APPROVE_STATUS" =''3'' AND "WO_NEXT_ROLE" ='''||"role_id"||''' ';
+
+raise info 'Query %', v_selQry;
+
+RETURN QUERY EXECUTE v_selQry;	
+END
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+
+ALTER FUNCTION "public"."dashboard_get_rejected_count_work_flow"("ofc_code" text, "role_id" text) OWNER TO "postgres";
+
+-----------------------------12
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

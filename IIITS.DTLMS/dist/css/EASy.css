@@ -1,0 +1,24 @@
+﻿.ATmodal{position:fixed;z-index:999;height:100%;width:100%;top:0;background-color:Black;filter:alpha(opacity=60);opacity:0.6;-moz-opacity:0.8;}
+.ATcenter{z-index:1000;margin:auto;padding:10px;background-color:transparent;border-radius:10px;filter:alpha(opacity=100);opacity:1;-moz-opacity:0.5;}
+.ATcenter img{position:absolute;top:0;left:0;right:0;bottom:0;margin:auto;}
+.ui-dialog-titlebar-close{visibility:hidden;}
+.EASyContent{position:absolute;top:40px;left:0px;right:0px;bottom:0px;overflow-y:scroll;margin-right:12px;margin-left:12px;border:1px solid #CCC;}
+.myTreeView{text-decoration:none;margin-left:2px;cursor:pointer;font-size:13px;font-family:'Open Sans';}
+.myTreeView a:focus, a:hover{text-decoration:none;}
+.myTreeView td:hover{background-color:#EFF7FB;}
+.myTreeView td div{height:20px !important}
+.myTreeView a{color:Black;}
+.mySelectedTreeView{text-decoration:none;margin-left:2px;font-size:13px;}
+.EASyFloatRight{float:right;border:0px solid #FFF;}
+.EasyResizeButtons{border:0px solid #FFF;}
+.EASyForm-Group{margin-bottom:5px;}
+.box{border:1px solid green;position:absolute;color:white;top:19px;left:30px;background-color:black;}
+.modalBackground{background-color:Black;filter:alpha(opacity=60);opacity:0.6;}
+.modalPopup{background-color:#FFFFFF;width:300px;border:3px solid #0DA9D0;border-radius:12px;padding:0;}
+.modalPopup .header{background-color:#2FBDF1;height:30px;width:auto;color:White;line-height:30px;text-align:center;font-weight:bold;border-top-left-radius:6px;border-top-right-radius:6px;}
+.modalPopup .body{padding:10px;min-height:50px;text-align:center;font-weight:bold;}
+.modalPopup .footer{padding:6px;}
+.modalPopup .yes, .modalPopup .no{height:23px;color:White;line-height:23px;text-align:center;font-weight:bold;cursor:pointer;border-radius:4px;}
+.modalPopup .yes{background-color:#2FBDF1;border:1px solid #0DA9D0;}
+.modalPopup .no{background-color:#9F9F9F;border:1px solid #5C5C5C;}
+.btn-minier{padding:.4em 1em !IMPORTANT;}

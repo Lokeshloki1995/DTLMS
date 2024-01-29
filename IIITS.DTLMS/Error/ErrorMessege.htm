@@ -1,0 +1,297 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta charset="utf-8" />
+    <title>500 Error Page</title>
+
+    <meta name="description" content="500 Error Page" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+    <!-- bootstrap & fontawesome -->
+    <link rel="stylesheet" href="/dist/css/bootstrap.min.css" />
+    <link href="~/dist/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- page specific plugin styles -->
+    <!-- text fonts -->
+    <link rel="stylesheet" href="~/dist/css/fonts-family.css" />
+    <!-- ace styles -->
+    <link rel="stylesheet" href="~/dist/css/ace.min.css" class="ace-main-stylesheet" />
+
+    <!--[if lte IE 9]>
+        <link rel="stylesheet" href="./dist/css/ace-part2.min.css" class="ace-main-stylesheet" />
+    <![endif]-->
+    <link rel="stylesheet" href="~/dist/css/ace-skins.min.css" />
+    <link rel="stylesheet" href="~/dist/css/ace-rtl.min.css" />
+
+    <!--[if lte IE 9]>
+      <link rel="stylesheet" href="./dist/css/ace-ie.min.css" />
+    <![endif]-->
+    <!-- inline styles related to this page -->
+    <!-- ace settings handler -->
+    <script type="text/javascript" src="~/dist/js/ace-extra.min.js"></script>
+
+    <!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+    <!--[if lte IE 8]>
+    <script src="./components/html5shiv/dist/html5shiv.min.js"></script>
+    <script src="./components/respond/dest/respond.min.js"></script>
+    <![endif]-->
+
+    <style>
+        body {
+            overflow: hidden !important;
+        }
+
+        div#navbar {
+            /* background-color: darkgray; */
+            font-weight: bold;
+            color: white !important;
+            background: linear-gradient(to right bottom, #1350d2, #011319) !important;
+        }
+
+        .full-screen {
+            background-color: lightgrey;
+            width: 100vw;
+            height: 100vh;
+            color: #000;
+            font-family: "Arial Black";
+            text-align: center;
+        }
+
+        .container {
+            padding-top: 4em;
+            width: 50%;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .error-num {
+            font-size: 8em;
+        }
+
+        .eye {
+            background: #fff;
+            border-radius: 50%;
+            display: inline-block;
+            height: 100px;
+            position: relative;
+            width: 100px;
+        }
+
+            .eye::after {
+                background: #000;
+                border-radius: 50%;
+                bottom: 56.1px;
+                content: " ";
+                height: 33px;
+                position: absolute;
+                right: 33px;
+                width: 33px;
+            }
+
+        .italic {
+            font-style: italic;
+        }
+
+        p {
+            margin-bottom: 4em;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+            a:hover {
+                color: lightgray;
+            }
+
+        .well {
+            padding: 50px 44px 11px 59px;
+            background-color: ghostwhite;
+        }
+
+        small {
+            font-size: 31px;
+            color: black;
+        }
+
+        .footer {
+            position: relative;
+            margin-top: -150px; /* negative value of footer height */
+            height: 150px;
+            clear: both;
+            padding-top: 20px;
+            text-align: center !important;
+        }
+    </style>
+</head>
+
+<body class="no-skin">
+    <div id="navbar" class="navbar navbar-default ace-save-state navbar-fixed-top">
+        <div class="navbar-container ace-save-state" id="navbar-container">
+            <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler"
+                    data-target="#sidebar">
+                <span class="sr-only">Toggle sidebar</span> <span class="icon-bar"></span><span class="icon-bar">
+                </span><span class="icon-bar"></span>
+            </button>
+            <div class="navbar-header pull-left">
+                <a href="/dashboard" class="navbar-brand">
+                    <small style="color:#fff!important;font-size: 35px!important;
+    letter-spacing: 7px!important;
+    padding-left: 23px!important;">
+                        <i class="fa fa-leaf">
+                        </i>HESCOM DTLMS
+                    </small>
+                </a>
+            </div>
+        </div><!-- /.navbar-container -->
+    </div>
+
+    <div class="main-container ace-save-state" id="main-container">
+        <div class="main-content">
+            <div class="main-content-inner">
+                <div class="page-content">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="full-screen">
+                                <div class='container'>
+                                    <span class="error-num">5</span>
+                                    <div class='eye'></div>
+                                    <div class='eye'></div>
+
+                                    <p style="color:cornflowerblue;font-weight:600!important;font-size:18px!important" class="sub-text">   Something Went Wrong We're working on it!. Give us more info on how this specific error occurred!</p>
+                                    <a style="color:#000!important;color:darkblue!important" href=""> Please contact admin. </a>
+                                    <br /><br />
+                                    <a href="/Login.aspx" class="btn btn-primary">
+                                        <i class="ace-icon fa fa-tachometer"></i>
+                                        Login
+                                    </a>
+                                    <!--<button class="btn btn-primary" href="/Login/Login">Login</button>-->
+                                </div>
+
+                            </div>
+                            <footer class="footer">Copyright © <label id="demo"></label>  Idea Infinity IT Solutions Pvt. Ltd.(HESCOM)</footer>
+                            <!-- PAGE CONTENT BEGINS -->
+                            <!--<div class="error-container">
+                                <div class="well">
+                                    <h1 class="grey lighter smaller">
+
+
+
+                                        Something Went Wrong
+                                    </h1>
+
+                                    <hr />
+                                    <h3 class="lighter smaller">
+                                        But we are working
+                                        <i class="ace-icon fa fa-wrench icon-animated-wrench bigger-125"></i>
+                                        on it!
+                                    </h3>
+
+                                    <div class="space"></div>
+
+                                    <div>
+                                        <h4 class="lighter smaller">Meanwhile, try one of the following:</h4>
+
+                                        <ul class="list-unstyled spaced inline bigger-110 margin-15">
+                                            <li>
+                                                <i class="ace-icon fa fa-hand-o-right blue"></i>
+                                                Give us more info on how this specific error occurred!
+                                            </li>
+
+                                            <li>
+                                                <i class="ace-icon fa fa-hand-o-right blue"></i>
+                                                Please contact admin.
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <hr />
+                                    <div class="space"></div>
+
+                                    <div class="text-center">
+                                        <a href="/Login/Login" class="btn btn-primary">
+                                            <i class="ace-icon fa fa-tachometer"></i>
+                                            Login
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <!-- PAGE CONTENT ENDS -->
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.page-content -->
+            </div>
+        </div><!-- /.main-content -->
+
+        <div class="footer text-center" style="margin-top: 300px;">
+            <div class="footer-inner">
+                <div class="footer-content">
+                    <span class="bigger-120">
+                        <span class="blue bolder"></span>
+
+
+                        Copyright © <label id="demo"></label> Idea Infinity IT Solutions Pvt. Ltd.(HESCOM)
+
+
+                    </span>
+
+                    &nbsp; &nbsp;
+                    <span class="action-buttons">
+                        <a href="#">
+                            <i class="ace-icon fa fa-twitter-square light-blue bigger-150"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="ace-icon fa fa-facebook-square text-primary bigger-150"></i>
+                        </a>
+
+                        <a href="#">
+                            <i class="ace-icon fa fa-rss-square orange bigger-150"></i>
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+            <i class="ace-icon fa fa-angle-double-up icon-only bigger-110"></i>
+        </a>
+    </div><!-- /.main-container -->
+    <!-- basic scripts -->
+    <!--[if !IE]> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!-- page specific plugin scripts -->
+    <!-- ace scripts -->
+    <script type="text/javascript" src="~/dist/js/ace-elements.min.js"></script>
+    <script type="text/javascript" src="~/dist/js/ace.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            const d = new Date();
+            let year = d.getFullYear();
+            document.getElementById("demo").innerHTML = year;
+
+
+            $(".full-screen").mousemove(function (event) {
+                var eye = $(".eye");
+                var x = (eye.offset().left) + (eye.width() / 2);
+                var y = (eye.offset().top) + (eye.height() / 2);
+                var rad = Math.atan2(event.pageX - x, event.pageY - y);
+                var rot = (rad * (180 / Math.PI) * -1) + 180;
+                eye.css({
+                    '-webkit-transform': 'rotate(' + rot + 'deg)',
+                    '-moz-transform': 'rotate(' + rot + 'deg)',
+                    '-ms-transform': 'rotate(' + rot + 'deg)',
+                    'transform': 'rotate(' + rot + 'deg)'
+                });
+            });
+        })
+    </script>
+    <!-- inline scripts related to this page -->
+</body>
+</html>

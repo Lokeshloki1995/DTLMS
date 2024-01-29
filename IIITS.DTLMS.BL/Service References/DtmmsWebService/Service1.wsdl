@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://tempuri.org/" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="Service1" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://192.168.4.151:888/Service1.svc?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://192.168.4.151:888/Service1.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+      <xsd:import schemaLocation="http://192.168.4.151:888/Service1.svc?xsd=xsd2" namespace="http://schemas.datacontract.org/2004/07/System.Data" />
+      <xsd:import schemaLocation="http://192.168.4.151:888/Service1.svc?xsd=xsd3" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" />
+      <xsd:import schemaLocation="http://192.168.4.151:888/Service1.svc?xsd=xsd4" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IService1_SaveIndentDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveIndentDetails" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SaveIndentDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveIndentDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SaveInvoiceDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveInvoiceDetails" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SaveInvoiceDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveInvoiceDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SavePseudoIndentDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:SavePseudoIndentDetails" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SavePseudoIndentDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SavePseudoIndentDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SaveRVData_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveRVData" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SaveRVData_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveRVDataResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_insertUserDetailsToDTLMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:insertUserDetailsToDTLMS" />
+  </wsdl:message>
+  <wsdl:message name="IService1_insertUserDetailsToDTLMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:insertUserDetailsToDTLMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_updateUserDetailsToDTLMS_InputMessage">
+    <wsdl:part name="parameters" element="tns:updateUserDetailsToDTLMS" />
+  </wsdl:message>
+  <wsdl:message name="IService1_updateUserDetailsToDTLMS_OutputMessage">
+    <wsdl:part name="parameters" element="tns:updateUserDetailsToDTLMSResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ActivateDeactivateUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActivateDeactivateUser" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ActivateDeactivateUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActivateDeactivateUserResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_changePassword_InputMessage">
+    <wsdl:part name="parameters" element="tns:changePassword" />
+  </wsdl:message>
+  <wsdl:message name="IService1_changePassword_OutputMessage">
+    <wsdl:part name="parameters" element="tns:changePasswordResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateTcMaster_InputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateTcMaster" />
+  </wsdl:message>
+  <wsdl:message name="IService1_UpdateTcMaster_OutputMessage">
+    <wsdl:part name="parameters" element="tns:UpdateTcMasterResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ReturnInvoiceAcknowledgement_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReturnInvoiceAcknowledgement" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ReturnInvoiceAcknowledgement_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReturnInvoiceAcknowledgementResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_purchaseOrder_InputMessage">
+    <wsdl:part name="parameters" element="tns:purchaseOrder" />
+  </wsdl:message>
+  <wsdl:message name="IService1_purchaseOrder_OutputMessage">
+    <wsdl:part name="parameters" element="tns:purchaseOrderResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ReceiptOfMaterialPO_InputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiptOfMaterialPO" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ReceiptOfMaterialPO_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ReceiptOfMaterialPOResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SaveUserDetails_InputMessage">
+    <wsdl:part name="parameters" element="tns:SaveUserDetails" />
+  </wsdl:message>
+  <wsdl:message name="IService1_SaveUserDetails_OutputMessage">
+    <wsdl:part name="parameters" element="tns:SaveUserDetailsResponse" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ActDeActUser_InputMessage">
+    <wsdl:part name="parameters" element="tns:ActDeActUser" />
+  </wsdl:message>
+  <wsdl:message name="IService1_ActDeActUser_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ActDeActUserResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IService1">
+    <wsdl:operation name="SaveIndentDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/SaveIndentDetails" message="tns:IService1_SaveIndentDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/SaveIndentDetailsResponse" message="tns:IService1_SaveIndentDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveInvoiceDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/SaveInvoiceDetails" message="tns:IService1_SaveInvoiceDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/SaveInvoiceDetailsResponse" message="tns:IService1_SaveInvoiceDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SavePseudoIndentDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/SavePseudoIndentDetails" message="tns:IService1_SavePseudoIndentDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/SavePseudoIndentDetailsResponse" message="tns:IService1_SavePseudoIndentDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveRVData">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/SaveRVData" message="tns:IService1_SaveRVData_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/SaveRVDataResponse" message="tns:IService1_SaveRVData_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="insertUserDetailsToDTLMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/insertUserDetailsToDTLMS" message="tns:IService1_insertUserDetailsToDTLMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/insertUserDetailsToDTLMSResponse" message="tns:IService1_insertUserDetailsToDTLMS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="updateUserDetailsToDTLMS">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/updateUserDetailsToDTLMS" message="tns:IService1_updateUserDetailsToDTLMS_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/updateUserDetailsToDTLMSResponse" message="tns:IService1_updateUserDetailsToDTLMS_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActivateDeactivateUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ActivateDeactivateUser" message="tns:IService1_ActivateDeactivateUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ActivateDeactivateUserResponse" message="tns:IService1_ActivateDeactivateUser_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="changePassword">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/changePassword" message="tns:IService1_changePassword_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/changePasswordResponse" message="tns:IService1_changePassword_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTcMaster">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/UpdateTcMaster" message="tns:IService1_UpdateTcMaster_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/UpdateTcMasterResponse" message="tns:IService1_UpdateTcMaster_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReturnInvoiceAcknowledgement">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ReturnInvoiceAcknowledgement" message="tns:IService1_ReturnInvoiceAcknowledgement_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ReturnInvoiceAcknowledgementResponse" message="tns:IService1_ReturnInvoiceAcknowledgement_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="purchaseOrder">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/purchaseOrder" message="tns:IService1_purchaseOrder_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/purchaseOrderResponse" message="tns:IService1_purchaseOrder_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ReceiptOfMaterialPO">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ReceiptOfMaterialPO" message="tns:IService1_ReceiptOfMaterialPO_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ReceiptOfMaterialPOResponse" message="tns:IService1_ReceiptOfMaterialPO_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="SaveUserDetails">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/SaveUserDetails" message="tns:IService1_SaveUserDetails_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/SaveUserDetailsResponse" message="tns:IService1_SaveUserDetails_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="ActDeActUser">
+      <wsdl:input wsaw:Action="http://tempuri.org/IService1/ActDeActUser" message="tns:IService1_ActDeActUser_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IService1/ActDeActUserResponse" message="tns:IService1_ActDeActUser_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IService1" type="tns:IService1">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="SaveIndentDetails">
+      <soap:operation soapAction="http://tempuri.org/IService1/SaveIndentDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveInvoiceDetails">
+      <soap:operation soapAction="http://tempuri.org/IService1/SaveInvoiceDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SavePseudoIndentDetails">
+      <soap:operation soapAction="http://tempuri.org/IService1/SavePseudoIndentDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveRVData">
+      <soap:operation soapAction="http://tempuri.org/IService1/SaveRVData" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="insertUserDetailsToDTLMS">
+      <soap:operation soapAction="http://tempuri.org/IService1/insertUserDetailsToDTLMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateUserDetailsToDTLMS">
+      <soap:operation soapAction="http://tempuri.org/IService1/updateUserDetailsToDTLMS" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActivateDeactivateUser">
+      <soap:operation soapAction="http://tempuri.org/IService1/ActivateDeactivateUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="changePassword">
+      <soap:operation soapAction="http://tempuri.org/IService1/changePassword" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UpdateTcMaster">
+      <soap:operation soapAction="http://tempuri.org/IService1/UpdateTcMaster" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReturnInvoiceAcknowledgement">
+      <soap:operation soapAction="http://tempuri.org/IService1/ReturnInvoiceAcknowledgement" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="purchaseOrder">
+      <soap:operation soapAction="http://tempuri.org/IService1/purchaseOrder" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReceiptOfMaterialPO">
+      <soap:operation soapAction="http://tempuri.org/IService1/ReceiptOfMaterialPO" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SaveUserDetails">
+      <soap:operation soapAction="http://tempuri.org/IService1/SaveUserDetails" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ActDeActUser">
+      <soap:operation soapAction="http://tempuri.org/IService1/ActDeActUser" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Service1">
+    <wsdl:port name="BasicHttpBinding_IService1" binding="tns:BasicHttpBinding_IService1">
+      <soap:address location="http://192.168.4.151:888/Service1.svc" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

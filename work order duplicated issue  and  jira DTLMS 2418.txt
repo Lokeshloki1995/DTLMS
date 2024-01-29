@@ -1,0 +1,62 @@
+
+
+Made changes On:
+clsWorkorder.cs
+
+-------------------
+CREATE OR REPLACE FUNCTION "public"."workorder_proc_check_workorder_exists_or_not"(IN "wo_no" text, IN "failure_id" text, IN "decom_wo_no" text, OUT "id" text, OUT "msg" text)
+  RETURNS "pg_catalog"."record" AS $BODY$	
+	DECLARE
+	wfo_id text;
+	df_id text;
+	wfo_id1 text;
+ df_id1 text;
+
+BEGIN
+
+SELECT   "WFO_ID"::text into wfo_id  from (select   "WO_NO","DE_COMM_WO_NO","WFO_ID"    from (SELECT replace((unnest(xpath('(/TBLWORKORDER/TBLWORKORDER/WO_NO)/text()'::text, ("TBLWFODATA"."WFO_DATA")::xml)))::text, ''''::text, ''::text) AS "WO_NO",replace((unnest(xpath('(/TBLWORKORDER/TBLWORKORDER/WO_NO_DECOM)/text()'::text, ("TBLWFODATA"."WFO_DATA")::xml)))::text, ''''::text, ''::text) AS "DE_COMM_WO_NO","WFO_ID"   FROM "TBLWFODATA" WHERE "WFO_BO_ID" = 11 ) a )b where "WO_NO"="wo_no"  ORDER BY "WFO_ID" desc limit 1   ;
+ 
+ 	
+		IF (wfo_id != '') THEN	
+	
+	SELECT "WO_DATA_ID" into df_id FROM "TBLWORKFLOWOBJECTS" WHERE "WO_BO_ID"=11 and  "WO_WFO_ID"=wfo_id   ORDER BY "WO_ID"  desc limit 1;
+	
+	if ("failure_id" != df_id) THEN
+		"id":= '2';
+		"msg":= 'Work Order Number Already Exists With Some Other DTC';		
+		RETURN;
+	
+		END IF;	
+
+	END IF;	
+	
+		
+		SELECT   "WFO_ID"::text into wfo_id1  from (select   "WO_NO","DE_COMM_WO_NO","WFO_ID"    from (SELECT replace((unnest(xpath('(/TBLWORKORDER/TBLWORKORDER/WO_NO)/text()'::text, ("TBLWFODATA"."WFO_DATA")::xml)))::text, ''''::text, ''::text) AS "WO_NO",replace((unnest(xpath('(/TBLWORKORDER/TBLWORKORDER/WO_NO_DECOM)/text()'::text, ("TBLWFODATA"."WFO_DATA")::xml)))::text, ''''::text, ''::text) AS "DE_COMM_WO_NO","WFO_ID"   FROM "TBLWFODATA" WHERE "WFO_BO_ID" = 11 ) a )b where "DE_COMM_WO_NO"="decom_wo_no"  ORDER BY "WFO_ID" desc limit 1   ;
+	
+		IF (wfo_id1 != '') THEN	
+	
+	SELECT "WO_DATA_ID" into df_id1 FROM "TBLWORKFLOWOBJECTS" WHERE "WO_BO_ID"=11 and  "WO_WFO_ID"=wfo_id1   ORDER BY "WO_ID"  desc limit 1;
+	
+	if ("failure_id" != df_id1) THEN
+		"id":= '2';
+		"msg":= 'Decommissioning Work Order Number Already Exists With Some Other DTC';		
+		RETURN;
+	
+		END IF;	
+
+	END IF;	
+	
+	
+
+	
+	
+END;
+ $BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+ALTER FUNCTION "public"."workorder_proc_check_workorder_exists_or_not"("wo_no" text, "failure_id" text, "decom_wo_no" text, OUT "id" text, OUT "msg" text) OWNER TO "postgres";
+
+
+
+-----------------------------------------------------------1

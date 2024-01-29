@@ -1,0 +1,266 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C6A4A2A4-53DE-43AA-9906-146536C4D762}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IIITS.DTLMS.BL</RootNamespace>
+    <AssemblyName>IIITS.DTLMS.BL</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ClosedXML">
+      <HintPath>..\IIITS.DTLMS\bin\ClosedXML.dll</HintPath>
+    </Reference>
+    <Reference Include="IIITS.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\PROJECT_FOLDER_ALL\CESC_INTERNAL\CESCINTERNAL web @\IIITS.DTLMS\bin\IIITS.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="IIITS.PGSQL.DAL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\madan f drive\madan\PGSQL\PGSQL DAL Project\IIITS.PGSQL.DAL\bin\Debug\IIITS.PGSQL.DAL.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Npgsql, Version=3.2.5.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\20-03-2018\IIITS.DTLMS\IIITS.PGSQL.DAL\bin\Debug\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet, Version=2020.0.2.0, Culture=neutral, PublicKeyToken=1cee9f8bde3db106, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\inetpub\wwwroot\HESCOM WEB\07-2023\Renci.SshNet.dll</HintPath>
+    </Reference>
+    <Reference Include="Renci.SshNet.Async, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Renci.SshNet.Async.1.3.0\lib\net40\Renci.SshNet.Async.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>E:\Live Application\18-03-2017(Reports 3rd)\IIITS.DTLMS.BL\bin\Debug\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Threading.Tasks.Extensions">
+      <HintPath>D:\IIITS.PGSQL.DAL\IIITS.PGSQL.DAL\bin\Debug\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Approval\clsApproval.cs" />
+    <Compile Include="Approval\clsApprovalPriority.cs" />
+    <Compile Include="Approval\clsAprovalHistory.cs" />
+    <Compile Include="Approval\clsFormValues.cs" />
+    <Compile Include="Approval\clsRoleMapping.cs" />
+    <Compile Include="BasicForms\clsCircle.cs" />
+    <Compile Include="BasicForms\clsDistrict.cs" />
+    <Compile Include="BasicForms\clsDivision.cs" />
+    <Compile Include="BasicForms\clsOmSecMast.cs" />
+    <Compile Include="BasicForms\clsStation.cs" />
+    <Compile Include="BasicForms\clsSubDiv.cs" />
+    <Compile Include="BasicForms\clsTaluk.cs" />
+    <Compile Include="BasicForms\clsZone.cs" />
+    <Compile Include="Billing\clsMajorBilling.cs" />
+    <Compile Include="Billing\clsMinorBilling.cs" />
+    <Compile Include="DALFILE\PGSqlConnectioncls.cs" />
+    <Compile Include="DashboardUcForms\clsDashboardUcForms.cs" />
+    <Compile Include="Dashboard\clsApkDownload.cs" />
+    <Compile Include="Dashboard\clsContactUs.cs" />
+    <Compile Include="Dashboard\clsDashboard.cs" />
+    <Compile Include="Dashboard\ClsDownload.cs" />
+    <Compile Include="Dashboard\clsLatestUpdates.cs" />
+    <Compile Include="Dashboard\clsSlaDashboard.cs" />
+    <Compile Include="Dashboard\clsStoreDashboard.cs" />
+    <Compile Include="DataBase\DataBseConnection.cs" />
+    <Compile Include="DTCFailure\clsAlterPowerSupply.cs" />
+    <Compile Include="DTCFailure\clsCRReport.cs" />
+    <Compile Include="DTCFailure\clsDeCommissioning.cs" />
+    <Compile Include="DTCFailure\clsEnhancement.cs" />
+    <Compile Include="DTCFailure\clsEstimation.cs" />
+    <Compile Include="DTCFailure\clsFailureEntry.cs" />
+    <Compile Include="DTCFailure\clsFailureRepTImeLine.cs" />
+    <Compile Include="DTCFailure\clsIndent.cs" />
+    <Compile Include="DTCFailure\clsInvoice.cs" />
+    <Compile Include="DTCFailure\clsNewDTCCR.cs" />
+    <Compile Include="DTCFailure\clsReceiveMinorTC.cs" />
+    <Compile Include="DTCFailure\clsRIApproval.cs" />
+    <Compile Include="DTCFailure\clsWorkOrder.cs" />
+    <Compile Include="DTCFailure\clsMinorTcComission.cs" />
+    <Compile Include="DTCFailure\StringHelper.cs" />
+    <Compile Include="DtcMissMatchEntry\clsDtcMissMatchEntry.cs" />
+    <Compile Include="ExcelUpload\ClsExcelUpload.cs" />
+    <Compile Include="General\clsCommon.cs" />
+    <Compile Include="General\clsCommunication.cs" />
+    <Compile Include="General\clsException.cs" />
+    <Compile Include="General\clsFtp.cs" />
+    <Compile Include="General\clsSFTP.cs" />
+    <Compile Include="General\Constants.cs" />
+    <Compile Include="General\Genaral.cs" />
+    <Compile Include="General\GeneralClsParameter.cs" />
+    <Compile Include="Internal\clsAllocateRange.cs" />
+    <Compile Include="Internal\clsFieldEnumeration.cs" />
+    <Compile Include="Internal\clsInterDashboard.cs" />
+    <Compile Include="Internal\clsNewDtcCommission.cs" />
+    <Compile Include="Internal\clsPreQCApproval.cs" />
+    <Compile Include="Internal\clsQCApproval.cs" />
+    <Compile Include="Internal\clsStoreEnumeration.cs" />
+    <Compile Include="Maintainance\clsTcMaintainance.cs" />
+    <Compile Include="MasterForms\clsAllotement.cs" />
+    <Compile Include="MasterForms\clsBank.cs" />
+    <Compile Include="MasterForms\clsBudgetMaster.cs" />
+    <Compile Include="MasterForms\clsChangePwd.cs" />
+    <Compile Include="MasterForms\clsDelivery.cs" />
+    <Compile Include="MasterForms\clsDesignation.cs" />
+    <Compile Include="MasterForms\clsDeviceRegister.cs" />
+    <Compile Include="MasterForms\clsDTCCommision.cs" />
+    <Compile Include="MasterForms\clsDtcMapping.cs" />
+    <Compile Include="MasterForms\clsDtcMaster.cs" />
+    <Compile Include="MasterForms\ClsDTrMappingToDiv.cs" />
+    <Compile Include="MasterForms\clsFeederMapping.cs" />
+    <Compile Include="MasterForms\clsFeederMast.cs" />
+    <Compile Include="MasterForms\clsFeederView.cs" />
+    <Compile Include="MasterForms\clsLogin.cs" />
+    <Compile Include="MasterForms\clsPoMaster.cs" />
+    <Compile Include="MasterForms\clsRepairerRates.cs" />
+    <Compile Include="MasterForms\clsRole.cs" />
+    <Compile Include="MasterForms\clsSMSFire_API.cs" />
+    <Compile Include="MasterForms\clsStore.cs" />
+    <Compile Include="MasterForms\clsTcMakeMaster.cs" />
+    <Compile Include="MasterForms\clsTcMaster.cs" />
+    <Compile Include="MasterForms\clsTransRepairer.cs" />
+    <Compile Include="MasterForms\clsTransSupplier.cs" />
+    <Compile Include="MasterForms\clsUser.cs" />
+    <Compile Include="MasterForms\ClsUserLoginDetails.cs" />
+    <Compile Include="MasterForms\ClsWorkOrderRangeAllocation.cs" />
+    <Compile Include="PermanentDecomm\clsPermanentCR.cs" />
+    <Compile Include="PermanentDecomm\clsPermanentDecomm.cs" />
+    <Compile Include="PermanentDecomm\clsPermanentEstimation.cs" />
+    <Compile Include="PermanentDecomm\clsPermanentIndent.cs" />
+    <Compile Include="PermanentDecomm\clsPermanentRI.cs" />
+    <Compile Include="PermanentDecomm\clsPermanentWO.cs" />
+    <Compile Include="POFlow\ClsDwa.cs" />
+    <Compile Include="POFlow\ClsLec.cs" />
+    <Compile Include="POFlow\clsPMCAllotment.cs" />
+    <Compile Include="POFlow\clsPMCDelivery.cs" />
+    <Compile Include="POFlow\clsPmcInvoice.cs" />
+    <Compile Include="POFlow\ClsPMCPoMaster.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\clsFailureDateAndDtrDocMissMatch.cs" />
+    <Compile Include="Query\clsFailureTransactionDelete.cs" />
+    <Compile Include="Query\clsQrywizard.cs" />
+    <Compile Include="Reports\clsReports.cs" />
+    <Compile Include="ScrapEntry\clsScrap.cs" />
+    <Compile Include="Service References\DtmmsWebService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="StoreTranfer\clsBankIndent.cs" />
+    <Compile Include="StoreTranfer\clsBankInvoice.cs" />
+    <Compile Include="StoreTranfer\clsBankReceiveDtr.cs" />
+    <Compile Include="StoreTranfer\clsReceiveTrans.cs" />
+    <Compile Include="StoreTranfer\clsStoreIndent.cs" />
+    <Compile Include="StoreTranfer\clsStoreInvoice.cs" />
+    <Compile Include="TCRepair\clsBillPayment.cs" />
+    <Compile Include="TCRepair\clsDTrRepairActivity.cs" />
+    <Compile Include="TCRepair\clsEstimate.cs" />
+    <Compile Include="TCRepair\ClsRepairerEstimate.cs" />
+    <Compile Include="TCRepair\ClsRepairerWorkorder.cs" />
+    <Compile Include="TCRepair\clsTCBilling.cs" />
+    <Compile Include="Transaction\clsDTCTracker.cs" />
+    <Compile Include="Transaction\clsDTrAllocation.cs" />
+    <Compile Include="Transaction\clsPoTracker.cs" />
+    <Compile Include="Transaction\clsStoreOffice.cs" />
+    <Compile Include="Transaction\clsTcTracker.cs" />
+    <Compile Include="WorkAward\ClsMajorWorkAward.cs" />
+    <Compile Include="WorkAward\clsWorkAward.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Service References\DtmmsWebService\Service1.wsdl" />
+    <None Include="Service References\DtmmsWebService\Service1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DtmmsWebService\Service11.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DtmmsWebService\Service12.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DtmmsWebService\Service13.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\DtmmsWebService\Service14.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\DtmmsWebService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DtmmsWebService\Service1.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DtmmsWebService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DtmmsWebService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Service References\DtmmsWebService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

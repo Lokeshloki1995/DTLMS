@@ -1,0 +1,1334 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="DTLMS.master.cs" Inherits="IIITS.DTLMS.DTLMS" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta charset="utf-8" />
+    <title>DTLMS HESCOM</title>
+    <link rel="icon" href="img/Bescom.jpg" type="image/png">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <%--  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">--%>
+    <meta content="" name="description" />
+    <meta content="Mosaddek" name="author" />
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="assets/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="assets/bootstrap/css/bootstrap-fileupload.css" rel="stylesheet" />
+    <link href="assets/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="assets/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="css/style.css" rel="stylesheet" />
+    <link href="css/style-responsive.css" rel="stylesheet" />
+    <link href="css/style-default.css" rel="stylesheet" id="style_color" />
+    <link href="assets/fullcalendar/fullcalendar/bootstrap-fullcalendar.css" rel="stylesheet" />
+    <link href="assets/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen" />
+    <link href="Styles/calendar.css" rel="stylesheet" type="text/css" />
+    <%--    <script type="text/javascript" src="js/JqueryLatest.js"></script>--%>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+    <link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
+    <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
+
+
+
+    <%-- <script type="text/javascript" src="Scripts/functions.js"></script>--%>
+    <script type="text/javascript">
+        /* To Disable Inspect Element */
+        $(document).bind("contextmenu", function (e) {
+            e.preventDefault();
+        });
+
+        $(document).keydown(function (e) {
+            if (e.which === 123) {
+                return false;
+            }
+        });
+    </script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            //CERTIFICATION CONTROLS
+            $('input').on('input', function () {
+                $(this).val($(this).val().replace(/[^a-z0-9!@_+=*&%.() ]/gi, ''));
+            });
+
+            $('textarea').on('input', function () {
+                $(this).val($(this).val().replace(/[^a-z0-9!@_+=*&%.() ]/gi, ''));
+            });
+            const d = new Date();
+            let year = d.getFullYear();
+            document.getElementById("demo").innerHTML = year;
+        });
+    </script>
+    <script type="text/javascript">
+
+        //CERTIFICATION CONTROLS
+        document.onkeydown = function (e) {
+            if (event.keyCode == 123) {
+                return false;
+            }
+            // commented in local for copy paste controls
+
+            //if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+            //    return false;
+            //}
+            //if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+            //    return false;
+            //}
+            //if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+            //    return false;
+            //}
+            //if (e.ctrlKey  && e.keyCode == 'C'.charCodeAt(0)) {
+            //    return false;
+            //}
+            //if (e.ctrlKey && e.keyCode == 'V'.charCodeAt(0)) {
+            //    return false;
+            //}
+            //if (e.ctrlKey && e.keyCode == 'X'.charCodeAt(0)) {
+            //    return false;
+            //}
+            //if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+            //    return false;
+            //}
+        }
+    </script>
+    <script type="text/javascript">
+
+        function preventBack() {
+            window.history.forward();
+        }
+
+        setTimeout("preventBack()", 0);
+        window.onunload = function () {
+            null
+        };
+    </script>
+
+    <script language="javascript" type="text/javascript">
+        $(window).load(function () {
+            $('#loading').hide();
+        });
+    </script>
+
+
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <style>
+        i.fa.fa-exclamation-circle {
+            font-size: 23px !important;
+            color: white !important;
+            padding: 5px 0px 0px 0px !important;
+        }
+
+
+        /*i.fa.fa-exclamation-circle {
+    font-size: 23px !important;
+    color: #312b5e !important;
+    padding: 5px 0px 0px 0px !important;
+}*/
+
+        .modal-header {
+            padding: 9px 15px;
+            border-bottom: 1px solid #eee;
+            background-color: #438eb9 !important;
+            color: #fff;
+            text-align: center;
+        }
+
+        .modal-footer button {
+            background-color: #dc5d3a !important;
+            color: #fff !important;
+        }
+
+        button.close {
+            opacity: 2;
+            color: #fff;
+        }
+
+        ul#wee {
+            display: none;
+        }
+
+        img#imglogo {
+            border-radius: 8px !important;
+            margin-top: 4px;
+            margin-bottom: 5px;
+        }
+
+        div#ascrail2000 {
+            width: 0px !important;
+            z-index: 100;
+            / background: #000 !important;
+            / cursor: default;
+            position: fixed;
+            top: 60px;
+            left: 175px;
+            height: 268px;
+            display: block;
+            opacity: 0;
+        }
+
+        div#ascrail2000 {
+            overflow: hidden !important;
+        }
+
+        div#ascrail2001 {
+            width: 10px !important;
+            background: #438eb9 !important;
+        }
+
+        #loading {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: fixed;
+            display: block;
+            opacity: 0.9;
+            background-color: #fff;
+            z-index: 99;
+            text-align: center;
+        }
+
+        #loading-image {
+            position: absolute;
+            top: 300px;
+            left: 680px;
+            z-index: 100;
+        }
+    </style>
+</head>
+
+<body ondrop="return false;" ondrag="return false;" onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="" class="fixed-top">
+
+
+    <form id="form1" runat="server">
+        <div id="loading">
+            <img id="loading-image" src="../img/loading.gif" alt="Loading..." />
+        </div>
+        <div>
+
+
+            <!-- BEGIN HEADER -->
+            <div id="header" class="navbar navbar-inverse navbar-fixed-top">
+                <!-- BEGIN TOP NAVIGATION BAR -->
+                <div class="navbar-inner">
+                    <div class="container-fluid" style="background: radial-gradient(ellipse at center, #0264d6 1%,#1c2b5a 100%)">
+                        <!--BEGIN SIDEBAR TOGGLE-->
+                        <div class="sidebar-toggle-box hidden-phone">
+                            <div class="icon-reorder tooltips" data-placement="right" data-original-title="Toggle Navigation"></div>
+                        </div>
+                        <!--END SIDEBAR TOGGLE-->
+                        <!-- BEGIN LOGO -->
+                        <div style="float: left">
+
+                            <asp:Image ID="imglogo" runat="server" ImageUrl="img/bescomlogo.jpg" Height="65px" Width="65px" />
+                        </div>
+                        <a class="brand" style="width: 400px; color: White">Distribution Transformer LifeCycle Management Software
+                        </a>
+                        <!-- END LOGO -->
+                        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                        <a class="btn btn-navbar collapsed" id="main_menu_trigger" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+
+                            <span class="arrow"></span>
+                        </a>
+                        <!-- END RESPONSIVE MENU TOGGLER -->
+
+                        <div class="span1" style="margin-top: 20px; width: 60px; display: none">
+                            <asp:RadioButton ID="rdbEnglish" runat="server" Text="ENGLISH"
+                                CssClass="radio" GroupName="a" AutoPostBack="true"
+                                OnCheckedChanged="rdbEnglish_CheckedChanged" />
+                        </div>
+                        <div class="span1" style="margin-top: 20px; width: 50px; display: none;">
+                            <asp:RadioButton ID="rdbKannada" runat="server" Text="ಕನ್ನಡ" CssClass="radio"
+                                GroupName="a" AutoPostBack="true"
+                                OnCheckedChanged="rdbKannada_CheckedChanged" />
+
+                        </div>
+
+
+
+                        <!-- END  NOTIFICATION -->
+                        <div class="top-nav ">
+                            <ul class="nav pull-right top-menu">
+                                <!-- BEGIN SUPPORT -->
+                                <!-- END SUPPORT -->
+                                <!-- BEGIN USER LOGIN DROPDOWN -->
+
+                                <li style="margin-right: 35px !important; padding-top: 11px" runat="server" id="liOffDesg">
+                                    <span style="font-weight: bold">Office Name: </span>
+                                    <span>
+                                        <asp:Label ID="lblOfficeName" Style="font-size: 12px; color: White" runat="server"></asp:Label></span>
+                                    <br />
+                                    <span style="font-weight: bold">Designation: </span>
+                                    <span>
+                                        <asp:Label ID="lblDesign" Style="font-size: 12px; color: White" runat="server"></asp:Label></span>
+
+                                </li>
+
+                                <li style="margin-right: 35px !important; padding-top: 11px" visible="false" runat="server" id="liKanOffDesg">
+                                    <span style="font-weight: bold">ಕಚೇರಿ ಹೆಸರು: </span>
+                                    <span>
+                                        <asp:Label ID="Label1" Style="font-size: 12px; color: White" runat="server"></asp:Label></span>
+                                    <br />
+                                    <span style="font-weight: bold">ಹುದ್ದೆ: </span>
+                                    <span>
+                                        <asp:Label ID="Label2" Style="font-size: 12px; color: White" runat="server"></asp:Label></span>
+
+                                </li>
+
+
+                                <%--  <li style="margin-right:80px !important;padding-top:11px">
+                       <span style="font-weight:bold"> Office Name: </span>
+                        <span> <asp:Label ID="lblOfficeName" style="font-size:12px;color:White"  runat="server"></asp:Label></span>
+                     </li>--%>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                        <%-- <img src="img/avatar1_small.jpg" alt="">--%>
+                                        <span class="username">
+                                            <asp:Label
+                                                ID="lblUserName" class="control-label" runat="server"></asp:Label></span>
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu extended logout">
+                                        <%-- <li><a href="#"><i class="icon-user"></i> My Profile</a></li>
+                               <li><a href="#"><i class="icon-cog"></i> My Settings</a></li>--%>
+
+                                        <li>
+                                            <asp:LinkButton ID="lnkLogout" runat="server" OnClick="lnkLogout_Click"><i class="icon-key"></i>Logout</asp:LinkButton></li>
+                                    </ul>
+                                </li>
+                                <!-- END USER LOGIN DROPDOWN -->
+                            </ul>
+                            <!-- END TOP NAVIGATION MENU -->
+                        </div>
+                    </div>
+                </div>
+                <!-- END TOP NAVIGATION BAR -->
+            </div>
+            <!-- END HEADER -->
+            <!-- BEGIN CONTAINER -->
+            <div id="container" class="row-fluid">
+                <!-- BEGIN SIDEBAR -->
+                <div class="sidebar-scroll">
+                    <div id="sidebar" class="nav-collapse collapse">
+
+                        <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+                        <div class="navbar-inverse">
+                            <div class="navbar-search visible-phone">
+                                <input type="text" class="search-query" placeholder="Search" />
+                            </div>
+                        </div>
+                        <!-- END RESPONSIVE QUICK SEARCH FORM -->
+                        <!-- BEGIN SIDEBAR MENU -->
+                        <ul class="sidebar-menu">
+
+                            <li class="sub-menu" runat="server" id="liDashboard">
+                                <a href="/Dashboard.aspx" class="">
+                                    <i class="icon-tasks"></i>
+                                    <span>Dashboard</span>
+                                    <span class="arrow"></span>
+                                </a>
+
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanDashboard" visible="false">
+                                <a href="/Dashboard.aspx" class="">
+                                    <i class="icon-tasks"></i>
+                                    <span id="Span1">ಡ್ಯಾಶ್ಬೋರ್ಡ್</span>
+                                    <span class="arrow"></span>
+                                </a>
+
+                            </li>
+
+
+
+                            <li class="sub-menu" runat="server" id="liUser">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-user"></i>
+                                    <span>Password Manag.</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <%-- <li><a class="" href="/MasterForms/UserView.aspx">User Create</a></li> --%>
+                                    <li><a class="" href="/MasterForms/ChangePassword.aspx">Change Password</a></li>
+                                </ul>
+
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanUser" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-user"></i>
+                                    <span>ಪಾಸ್ವರ್ಡ್ ನಿರ್ವಹಣೆ</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <%--<li><a class="" href="/MasterForms/UserView.aspx">ಬಳಕೆದಾರ ರಚಿಸಿ</a></li> --%>
+                                    <li><a class="" href="/MasterForms/ChangePassword.aspx">ಪಾಸ್ವರ್ಡ್ ಬದಲಾವಣೆ</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liAdminActivities">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-home"></i>
+                                    <span>Admin Activities</span>
+                                    <span class="arrow"></span>
+                                </a>
+
+                                <ul class="mainmenu">
+                                    <li class="sub-menu">
+                                        <a href="#">User Management
+                                     <span class="arrow"></span>
+                                        </a>
+
+                                        <ul id="wee" class="sub">
+                                            <li><a href="/MasterForms/UserView.aspx">Create User</a></li>
+                                            <li><a class="" href="/MasterForms/UserLoginDetails.aspx">User Login Details</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li class="sub-menu"><a href="#">Admin Masters
+                            <span class="arrow"></span>
+                                    </a>
+
+                                        <ul id="wee" class="sub">
+                                            <li><a class="" href="/MasterForms/DesignationView.aspx">Designation</a></li>
+                                            <li><a class="" href="/MasterForms/RoleView.aspx">Role</a></li>
+                                            <li><a class="" href="/MasterForms/DeviceRegister.aspx">Mobile Register</a></li>
+                                            <li><a class="" href="/MinorRepair/ViewEstimateRate.aspx">Repairer Rates Entry</a></li>
+                                            <li><a class="" href="/MinorRepair/RatesUpload.aspx">Rates Upload</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <%--<li class="sub-menu"><a href="#">Transaction
+                             <span class="arrow"></span>
+                                    </a>
+
+                                        <ul id="wee" class="sub">
+                                            <li><a class="" href="/Transaction/DTrAllocation1.aspx">DTR Swapping</a></li>
+                                        </ul>
+                                    </li>--%>
+
+                                    <li class="sub-menu" runat="server" id="liMismatch"><a href="#">Transformer Centre MisMatch Entry
+                            <span class="arrow"></span>
+                                    </a>
+
+                                        <ul id="wee" class="sub">
+                                            <li><a class="" href="/DtcMissMatch/DtcDtrMissMatchEntry.aspx">MisMatch DTC DTR Allocation</a></li>
+                                            <li><a class="" href="/DtcMissMatch/DTRMissmatchEntry.aspx">DTR UnMapping</a></li>
+                                            <li><a class="" href="/DtcMissMatch/Allocate.aspx">Allocate UnMapped DTC</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="sub-menu"><a href="#">Approval
+                           <span class="arrow"></span>
+                                    </a>
+
+                                        <ul id="wee" class="sub">
+                                            <li><a class="" href="/Approval/FormRoleMapping.aspx">Access Rights</a></li>
+                                            <li><a class="" href="/Approval/ApprovalPriority.aspx">Approval Priority</a></li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="sub-menu"><a href="#">Location Master
+                           <span class="arrow"></span>
+                                    </a>
+
+                                        <ul id="wee" class="sub">
+                                            <li><a class="" href="/BasicForms/ZoneView.aspx">Zone Master</a></li>
+                                            <li><a class="" href="/BasicForms/CircleView.aspx">Circle Master</a></li>
+                                            <li><a class="" href="/BasicForms/DivisionView.aspx">Division Master</a></li>
+                                            <li><a class="" href="/BasicForms/SubDivisionView.aspx">Sub Division Master</a></li>
+                                            <li><a class="" href="/BasicForms/OMsecView.aspx">Section Master</a></li>
+                                            <li><a class="" href="/BasicForms/DistrictView.aspx">District Master</a></li>
+                                            <li><a class="" href="/BasicForms/TalukView.aspx">Taluk Master</a></li>
+                                            <li><a class="" href="/BasicForms/StationView.aspx">Station Master</a></li>
+                                            <%-- <li><a class="" href="/BasicForms/StationView.aspx">Station Master</a></li>--%>
+                                        </ul>
+                                    </li>
+
+
+
+
+                                    <%--                                    <li class="sub-menu"><a href="#">DTC MisMatch Entry / BackEndActivities
+                                        <span class="arrow"></span>
+                                    </a>
+
+                                        <ul id="wee" class="sub">
+                                            <%--                                            <li><a class="" href="/DtcMissMatch/DtcDtrMissMatchEntry.aspx">MisMatch DTC DTR Allocation</a></li>
+                                            <li><a class="" href="/DtcMissMatch/DTRMissmatchEntry.aspx">DTR UnMapping</a></li>
+                                            <li><a class="" href="/Query/DTCSectionSwapping.aspx">Swap DTC and DTR Section</a></li>--%>
+                                    <%--  <li><a class="" href="/DtcMissMatch/FeederBifurcation.aspx">DTC Feeder Bifurcation</a></li>
+
+
+                                        </ul>
+                                    </li>--%>
+
+                                    <%--<li class="sub-menu"><a href="#">Create Vendor Master
+                             <span class="arrow"></span>
+                           </a>
+
+                                    <ul id="wee"class="sub">
+                            <li><a class="" href="/MasterForms/VendorMaster.aspx">Create Vendor</a></li> 
+                                        </ul>
+                               </li>
+
+                      <li class="sub-menu"><a href="#">Generate SS Plate Range
+                             <span class="arrow"></span>
+                           </a>
+
+                                    <ul id="wee"class="sub">
+                            <li><a class="" href="/MasterForms/AllocateRange.aspx">Generate Range</a></li> 
+                                        </ul>
+                               </li>--%>
+                                </ul>
+
+
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanAdminActivities" visible="false" style="display: none;">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-home"></i>
+                                    <span>ನಿರ್ವಹಣೆ ಚಟುವಟಿಕೆಗಳು</span>
+                                    <span class="arrow"></span>
+                                </a>
+
+                                <ul class="mainmenu">
+
+                                    <li><a href="#">ಬಳಕೆದಾರ ನಿರ್ವಹಣೆ</a>
+                                        <span class="arrow"></span>
+                                        <ul class="submenu">
+                                            <li><a class="" href="/MasterForms/UserView.aspx">ಬಳಕೆದಾರರನ್ನು ರಚಿಸಿ</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="sub-menu"><a href="#">ನಿರ್ವಹಣೆ ಮಾಸ್ಟರ್ಸ್</a>
+                                        <span class="arrow"></span>
+                                        <ul class="sub">
+                                            <li><a class="" href="/MasterForms/DesignationView.aspx">ಹುದ್ದೆ</a></li>
+                                            <li><a class="" href="/MasterForms/RoleView.aspx">ಪಾತ್ರ</a></li>
+                                            <li><a class="" href="/MasterForms/DeviceRegister.aspx">ಸಾಧನ ನೋಂದಣಿ</a></li>
+                                            <li><a class="" href="/MinorRepair/ViewEstimateRate.aspx">ದುರಸ್ತಿ ದರಗಳು ನೋಂದಣಿ</a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="sub-menu"><a href="#">ವ್ಯವಹಾರ</a>
+                                        <span class="arrow"></span>
+                                        <ul class="sub">
+                                            <li><a class="" href="/Transaction/DTrAllocation1.aspx">ಡಿಟಿಆರ್ ವಿನಿಮಯ</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                    <%--<li  class="sub-menu"><a href="#">ಡಿಟಿಸಿ ಮಿಸ್ಮ್ಯಾಚ್ ಪ್ರವೇಶ</a>
+                             <span class="arrow"></span>
+                                    <ul class="sub">
+                          <li><a class="" href="/DtcMissMatch/DtcDtrMissMatchEntry.aspx">ಮಿಸ್ಮ್ಯಾಚ್ ಡಿಟಿಸಿ ಡಿಟಿಆರ್ ಹಂಚಿಕೆ</a></li>
+                      <li><a class="" href="/DtcMissMatch/DTRMissmatchEntry.aspx">ಡಿಟಿಆರ್ ಅನ್ಮ್ಯಾಪಿಂಗ್</a></li>
+                      <li><a class="" href="/DtcMissMatch/Allocate.aspx">ಅನ್ ಮ್ಯಾಪ್ಡ್ ಡಿಟಿಸಿ ನಿಯೋಜಿಸಿ</a></li>
+                                        </ul>
+                               </li> --%>
+
+
+                                    <li class="sub-menu"><a href="#">ಅನುಮೋದನೆ</a>
+                                        <span class="arrow"></span>
+                                        <ul class="sub">
+                                            <li><a class="" href="/Approval/FormRoleMapping.aspx">ಪ್ರವೇಶ ಹಕ್ಕು</a></li>
+                                            <li><a class="" href="/Approval/ApprovalPriority.aspx">ಅನುಮೋದನೆ ಆದ್ಯತಾ</a></li>
+
+                                        </ul>
+                                    </li>
+
+                                    <li class="sub-menu"><a href="#">ಸ್ಥಳ ಮಾಸ್ಟರ್ಸ್</a>
+
+                                        <ul class="sub">
+                                            <li><a class="" href="/BasicForms/ZoneView.aspx">ವಲಯ ಮಾಸ್ಟರ್</a></li>
+                                            <li><a class="" href="/BasicForms/CircleView.aspx">ಸರ್ಕಲ್ ಮಾಸ್ಟರ್</a></li>
+                                            <li><a class="" href="/BasicForms/DivisionView.aspx">ವಿಭಾಗ ಮಾಸ್ಟರ್</a></li>
+                                            <li><a class="" href="/BasicForms/SubDivisionView.aspx">ಉಪ ವಿಭಾಗ ಮಾಸ್ಟರ್</a></li>
+                                            <li><a class="" href="/BasicForms/OMsecView.aspx">ವಿಭಾಗ ಮಾಸ್ಟರ್</a></li>
+                                            <li><a class="" href="/BasicForms/DistrictView.aspx">ಜಿಲ್ಲಾ ಮಾಸ್ಟರ್</a></li>
+                                            <li><a class="" href="/BasicForms/TalukView.aspx">ತಾಲೂಕು ಮಾಸ್ಟರ್</a></li>
+                                            <li><a class="" href="/BasicForms/StationView.aspx">ಸ್ಟೇಶನ್ ಮಾಸ್ಟರ್</a></li>
+                                        </ul>
+                                    </li>
+
+
+                                    <%--<li><a class="" href="/DTCFailure/WorkOrderView.aspx">ಕೆಲಸ ಆದೇಶ</a></li>--%>
+                                </ul>
+                            </li>
+
+
+
+                            <li class="sub-menu" runat="server" id="liEnumeration">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-book"></i>
+                                    <span>Enumeration</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <%--   <li><a class="" href="/Internal/StoreEnumeration.aspx">Store Enumeration</a></li>
+                                    <li><a class="" href="/Internal/FieldEnumeration.aspx">Field Enumeration</a></li>--%>
+                                    <li><a class="" href="/Internal/EnumerationView.aspx">Enumeration View</a></li>
+
+                                    <li><a class="" href="/Internal/QCApproval.aspx">QC Approval</a></li>
+                                    <li><a class="" href="/Internal/QcDoneView.aspx">QC Done</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liDeviceReg">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-mobile-phone"></i>
+                                    <span>Device Register</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/MasterForms/DeviceRegister.aspx">Mobile Register</a></li>
+
+                                </ul>
+                            </li>
+                            <li class="sub-menu" runat="server" id="liFeederMapping">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-mobile-phone"></i>
+                                    <span>Feeder Mapping</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/MasterForms/FeederMapping.aspx">Feeder Mapping</a></li>
+
+                                </ul>
+                            </li>
+
+
+
+                            <li class="sub-menu" runat="server" id="liMaster">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-book"></i>
+                                    <span>Masters</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+
+                                    <%--<li><a class="" href="/MasterForms/DesignationView.aspx">Designation</a></li>
+                      <li><a class="" href="/MasterForms/RoleView.aspx">Role</a></li> --%>
+                                    <li><a class="" href="/MasterForms/UpdateProfile.aspx">Update Profile</a></li>
+                                    <li><a class="" href="/MasterForms/TcMakeMasterView.aspx">DTR Make Master </a></li>
+                                    <li><a class="" href="/MasterForms/TransSupplierView.aspx">DTR Supplier Master</a></li>
+                                    <li><a class="" href="/MasterForms/TransRepairerView.aspx">DTR Repairer Master</a></li>
+                                    <%--   <li><a class="" href="/MasterForms/PGRS_Status.aspx">PGRS Status</a></li>--%>
+
+                                    <li><a class="" href="/MasterForms/StoreView.aspx">Store Master</a></li>
+                                    <li><a class="" href="/MasterForms/BankView.aspx">Bank Master</a></li>
+                                    <li><a class="" href="/MasterForms/TcMasterView.aspx">Existing DTR Entry </a></li>
+                                    <li><a class="" href="/MasterForms/NewTcMaster.aspx">New DTR Inward </a></li>
+                                    <li><a class="" href="/MasterForms/DTCView.aspx">Transformer Centre Master</a></li>
+                                    <li><a class="" href="/MasterForms/PoMasterView.aspx">Purchase Order</a></li>
+                                    <li><a class="" href="/MasterForms/DeliveryInstView.aspx">Dispatch Instructions</a></li>
+                                    <li><a class="" href="/MasterForms/TcAllotmentView.aspx">Tc Allotment</a></li>
+                                    <li><a class="" href="/MasterForms/TcInwardView.aspx">Inward View </a></li>
+
+                                    <li><a class="" href="/MasterForms/FeederView.aspx">Feeder View</a></li>
+                                    <li><a class="" href="/MasterForms/BudgetView.aspx">Budget Master</a></li>
+                                    <li><a class="" href="/MinorRepair/RepairerRatesView.aspx">Repairer Rates Entry</a></li>
+                                    <li><a class="" href="/MasterForms/DTrMappingToDiv.aspx">DTr Mapping To Division</a></li>
+                                    <li><a class="" href="/MasterForms/WorkOrderRangeAllocationView.aspx">Work Order Range Allocation</a></li>
+                                    <li><a class="" href="/MasterForms/UserView.aspx">User Create</a></li>
+
+                                    <%--<li><a class="" href="/MasterForms/DeviceRegister.aspx">Device Register</a></li> --%>
+                                </ul>
+                            </li>
+
+
+                            <li class="sub-menu" runat="server" id="liKanMaster" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-book"></i>
+                                    <span>ಮಾಸ್ಟರ್ಸ್</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+
+                                    <%--<li><a class="" href="/MasterForms/DesignationView.aspx">ಹುದ್ದೆ</a></li>
+                      <li><a class="" href="/MasterForms/RoleView.aspx">ಪಾತ್ರ</a></li>--%>
+                                    <li><a class="" href="/MasterForms/UpdateProfile.aspx">ಪ್ರೊಫೈಲ್ ನವೀಕರಿಸಿ</a></li>
+                                    <li><a class="" href="/MasterForms/TcMakeMasterView.aspx">ಡಿಟಆರ್ ಮೇಕ್ ಮಾಸ್ಟರ್  </a></li>
+                                    <li><a class="" href="/MasterForms/TransSupplierView.aspx">ಡಿಟಆರ್ ಸರಬರಾಜುದಾರ</a></li>
+                                    <li><a class="" href="/MasterForms/TransRepairerView.aspx">ಡಿಟಆರ್ ರಿಪೇರಿಗಾರ</a></li>
+                                    <li><a class="" href="/MasterForms/StoreView.aspx">ಅಂಗಡಿ</a></li>
+                                    <li><a class="" href="/MasterForms/TcMasterView.aspx">ಡಿಟಆರ್ ಎಂಟ್ರಿ ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ  </a></li>
+                                    <li><a class="" href="/MasterForms/NewTcMaster.aspx">ಹೊಸ ಡಿಟಆರ್ ಒಳಗಣ  </a></li>
+                                    <li><a class="" href="/MasterForms/DTCView.aspx">ಡಿಟಿಸಿ ಮಾಸ್ಟರ್</a></li>
+                                    <li><a class="" href="/MasterForms/PoMasterView.aspx">ಖರೀದಿ ಆದೇಶ</a></li>
+                                    <li><a class="" href="/MasterForms/FeederView.aspx">ಫೀಡರ್ ವೀಕ್ಷಿಸಿ</a></li>
+                                    <li><a class="" href="/MasterForms/BudgetView.aspx">ಬಜೆಟ್ ಮಾಸ್ಟರ್</a></li>
+                                    <%--<li><a class="" href="/MasterForms/DeviceRegister.aspx">ಸಾಧನ ನೋಂದಣಿ</a></li>--%>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="li2">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-ambulance"></i>
+                                    <span>PMC Procurement</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/POFlow/LECView.aspx">LEC Master</a></li>
+                                    <li><a class="" href="/POFlow/DWAView.aspx">DWA Master</a></li>
+                                    <li><a class="" href="/POFlow/PMCPoMaterView.aspx">Purchase Order</a></li>
+                                    <li><a class="" href="/POFlow/PMCDeliveryInstView.aspx">Dispatch Instructions</a></li>
+                                    <li><a class="" href="/POFlow/PMCTcAllotmentView.aspx">DTr Allotment</a></li>
+                                    <li><a class="" href="/POFlow/PMCInvoiceView.aspx">PMC Invoice</a></li>
+                                    <li><a class="" href="/POFlow/PMCStock.aspx">Store Stock</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liFailure">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-ambulance"></i>
+                                    <span>Failure / Enhance</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/DTCFailure/FailureEntryView.aspx">Failure Entry</a></li>
+                                    <li><a class="" href="/DTCFailure/EnhancementView.aspx">Enhancement</a></li>
+                                    <%--   <li><a class="" href="/DTCFailure/WorkOrder.aspx?TypeValue=ydRRTTxkdt6Trx91pX1%2bcA%3d%3d">New Transformer Center</a></li>--%>
+                                    <li><a class="" href="/DTCFailure/EstimationView.aspx">Estimation</a></li>
+                                    <li><a class="" href="/DTCFailure/WorkOrderView.aspx">Work Order</a></li>
+                                    <%--   <li><a class="" href="/DTCFailure/IndentView.aspx">Indent</a></li>--%>
+                                    <li><a class="" href="/DTCFailure/InvoiceView.aspx">Invoice</a></li>
+                                    <%--                   <li><a class="" href="/DTCFailure/DeCommissioningView.aspx">Decommissioning</a></li>--%>
+                                    <li><a class="" href="/DTCFailure/RIApprovalView.aspx">RI Approval</a></li>
+                                    <li><a class="" href="/DTCFailure/AlterNativeSupply.aspx">Alternative Power Supply</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanFailure" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-ambulance"></i>
+                                    <span>ವೈಫಲ್ಯ / ಹೆಚ್ಚಿಸಲು</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/DTCFailure/FailureEntryView.aspx">ವೈಫಲ್ಯ ಎಂಟ್ರಿ</a></li>
+                                    <li><a class="" href="/DTCFailure/EnhancementView.aspx">ವರ್ಧಕ</a></li>
+                                    <li><a class="" href="/DTCFailure/EstimationView.aspx">ಅಂದಾಜು</a></li>
+                                    <li><a class="" href="/DTCFailure/WorkOrderView.aspx">ಕೆಲಸ ಆದೇಶ</a></li>
+                                    <li><a class="" href="/DTCFailure/IndentView.aspx">ಇಂಡೆಂಟ್</a></li>
+                                    <li><a class="" href="/DTCFailure/InvoiceView.aspx">ಸರಕುಪಟ್ಟಿ</a></li>
+                                    <li><a class="" href="/DTCFailure/DeCommissioningView.aspx">ನಿಯುಕ್ತಿರಹಿತ</a></li>
+                                    <li><a class="" href="/DTCFailure/RIApprovalView.aspx">ಆರ್ಐ ಅನುಮೋದನೆ</a></li>
+                                    <li><a class="" href="/DTCFailure/AlterNativeSupply.aspx">ಪರ್ಯಾಯ ವಿದ್ಯುತ್ ಪೂರೈಕೆ</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liRepair">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-cogs"></i>
+                                    <span>DTR Repair Manag. </span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <%--                                    <li><a class="" href="/TCRepair/FaultyTCEstimateview.aspx">FaultyEstimation DTR Search</a></li>--%>
+                                    <li><a class="" href="/TCRepair/FaultTCSearch.aspx">Faulty DTR Search</a></li>
+                                    <%--  <li><a class="" href="/TCRepair/TCRepairIssue.aspx">Issue Fault DTR </a></li>--%>
+
+                                    <li><a class="" href="/TCRepair/TestPendingSearch.aspx">Pending To Test</a></li>
+                                    <li><a class="" href="/TCRepair/DeliverPendingSearch.aspx">Pending To Receive</a></li>
+                                    <li><a class="" href="/TCRepair/ViewPODetails.aspx">Repair PO Details</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanRepair" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-cogs"></i>
+                                    <span>ಡಿಟಆರ್ ದುರಸ್ತಿ ಮ್ಯಾನೇಜ್ಮೆಂಟ್ </span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/TCRepair/FaultyTCEstimateview.aspx">Faultyಅಂದಾಜು DTR Search</a></li>
+                                    <li><a class="" href="/TCRepair/FaultTCSearch.aspx">ಡಿಟಆರ್ ಹುಡುಕು ತಪ್ಪು</a></li>
+                                    <%--  <li><a class="" href="/TCRepair/TCRepairIssue.aspx">Issue Fault DTR </a></li>--%>
+
+                                    <li><a class="" href="/TCRepair/TestPendingSearch.aspx">ಪರೀಕ್ಷೆ ಬಾಕಿ</a></li>
+                                    <li><a class="" href="/TCRepair/DeliverPendingSearch.aspx">ಬಾಕಿ ಸ್ವೀಕರಿಸಿ</a></li>
+                                    <li><a class="" href="/TCRepair/ViewPODetails.aspx">ದುರಸ್ತಿ ಪಿಒ ವಿವರಗಳು</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liScrap">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-ban-circle"></i>
+                                    <span>Scrap Transformer</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <%--    <li><a class="" href="/ScrapEntry/ScrapTest.aspx">Scrap Test</a></li>
+                                    <li><a class="" href="/ScrapEntry/TCSearch.aspx">Scrap Transformer</a></li>
+                                    <li><a class="" href="/ScrapEntry/ScrapEntryView.aspx">Scrap Disposal</a></li>--%>
+                                    <li><a class="" href="/ScrapEntry/ScrapTest.aspx">Declare Scrap</a></li>
+                                    <li><a class="" href="/ScrapEntry/ScrapView.aspx">Scrap View</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanScrap" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-ban-circle"></i>
+                                    <span>ಸ್ಕ್ರ್ಯಾಪ್ ಪರಿವರ್ತಕ</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/ScrapEntry/ScrapTest.aspx">ಸ್ಕ್ರ್ಯಾಪ್ ಟೆಸ್ಟ್</a></li>
+                                    <li><a class="" href="/ScrapEntry/TCSearch.aspx">ಸ್ಕ್ರ್ಯಾಪ್ ಪರಿವರ್ತಕ</a></li>
+                                    <li><a class="" href="/ScrapEntry/ScrapEntryView.aspx">ಸ್ಕ್ರ್ಯಾಪ್ ವಿಲೇವಾರಿ</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liMaintainance">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-bar-chart"></i>
+                                    <span>Maintenance</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Maintainance/PrevMainView.aspx">Preventive Maintenance</a></li>
+                                    <li><a class="" href="/Maintainance/TcMaintainanceView.aspx">Maintenance</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanMaintainance" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-bar-chart"></i>
+                                    <span>ನಿರ್ವಹಣೆ</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Maintainance/PrevMainView.aspx">ತಡೆಗಟ್ಟುವ ನಿರ್ವಹಣೆ</a></li>
+                                    <li><a class="" href="/Maintainance/TcMaintainanceView.aspx">ನಿರ್ವಹಣೆ</a></li>
+
+                                </ul>
+                            </li>
+
+                            <%--   <li class="sub-menu" runat="server" id="liBilling">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-bell"></i>
+                                    <span>Billing</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+
+                                    <li><a class="" href="/WorkAward/WorkAwardView.aspx">Minor WorkAward</a></li>
+                                    <li><a class="" href="/Billing/BillingView.aspx">Minor Billing</a></li>
+                                    <li><a class="" href="/WorkAward/MajorWorkAwardView.aspx">Major WorkAward</a></li>
+                                    <li><a class="" href="/Billing/MajorBillingView.aspx">Major Billing</a></li>
+
+                                </ul>
+                            </li>--%>
+
+                            <li class="sub-menu" runat="server" id="liKanBilling" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-bell"></i>
+                                    <span>ಬಿಲ್ಲಿಂಗ್</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+
+                                    <li><a class="" href="/WorkAward/WorkAwardView.aspx">WorkAward</a></li>
+                                    <li><a class="" href="/Billing/BillingView.aspx">ಬಿಲ್ಲಿಂಗ್</a></li>
+                                    <li><a class="" href="/WorkAward/MajorWorkAwardView.aspx">Major WorkAward</a></li>
+                                    <li><a class="" href="/Billing/MajorBillingView.aspx">ಬಿಲ್ಲಿಂಗ್</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liPermanentdec">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-bitbucket"></i>
+                                    <span>Permanent Decomm</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/PermanentDecomm/Permanentestimationview.aspx">PermanentDecomm Entry</a></li>
+                                    <li><a class="" href="/PermanentDecomm/PermanentWOview.aspx">PermanentDecomm Workorder </a></li>
+                                    <li><a class="" href="/PermanentDecomm/PermanentIndentView.aspx">PermanentDecomm Indent</a></li>
+                                    <li><a class="" href="/PermanentDecomm/PermanentDecommView.aspx">Permanent Decommision</a></li>
+                                    <li><a class="" href="/PermanentDecomm/PermanentRIView.aspx">Permanent RI</a></li>
+                                    <%--<li><a class="" href="/PermanentDecomm/PermanentCRIView.aspx">Permanent CR</a></li>--%>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanPermanentdec" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-ambulance"></i>
+                                    <span>ಶಾಶ್ವತ  ಸ್ಥಗಿತಗೊಳಿಸುವಿಕೆ</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/PermanentDecomm/Permanentestimationview.aspx">ಶಾಶ್ವತವಾದದ್ದು ಸ್ಥಗಿತಗೊಳಿಸುವಿಕೆ ಎಂಟ್ರಿ</a></li>
+                                    <li><a class="" href="/PermanentDecomm/PermanentWOview.aspx">ಶಾಶ್ವತ ಕೆಲಸಗಾರ </a></li>
+                                    <li><a class="" href="/PermanentDecomm/PermanentIndentView.aspx">ಶಾಶ್ವತ ಇಂಡೆಂಟ್</a></li>
+                                    <li><a class="" href="/PermanentDecomm/PermanentDecommView.aspx">ಶಾಶ್ವತ ನಿಷೇಧ</a></li>
+                                    <li><a class="" href="/PermanentDecomm/PermanentRIView.aspx">ಶಾಶ್ವತ RI</a></li>
+                                    <%--<li><a class="" href="/PermanentDecomm/PermanentCRIView.aspx">ಶಾಶ್ವತ CR</a></li>--%>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liInterStore">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-globe"></i>
+                                    <span>Inter Store Transfer</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/StoreTransfer/StoreIndentView.aspx">Store Indent</a></li>
+                                    <li><a class="" href="/StoreTransfer/StoreInvoiceView.aspx">Store Invoice</a></li>
+                                    <li><a class="" href="/StoreTransfer/RecieveTransView.aspx">Recieve Transformer</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanInterStore" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-globe"></i>
+                                    <span>ಇಂಟರ್ ಅಂಗಡಿ ಟ್ರಾನ್ಸ್ಫರ್</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/StoreTransfer/StoreIndentView.aspx">ಅಂಗಡಿ ಇಂಡೆಂಟ್</a></li>
+                                    <li><a class="" href="/StoreTransfer/StoreInvoiceView.aspx">ಅಂಗಡಿ ಸರಕುಪಟ್ಟಿ</a></li>
+                                    <li><a class="" href="/StoreTransfer/RecieveTransView.aspx">ಸ್ವೀಕರಿಸಲು ಪರಿವರ್ತಕ</a></li>
+                                </ul>
+                            </li>
+
+                            <%--     <li class="sub-menu" runat="server" id="liInterBank">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-beaker"></i>
+                                    <span>Transformer Bank</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/StoreTransfer/BankIndent.aspx">Bank Indent</a></li>
+                                </ul>
+                            </li>--%>
+
+                            <li class="sub-menu" runat="server" id="liKanInterBank" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-beaker"></i>
+                                    <span>ಬ್ಯಾಂಕ್ ವರ್ಗಾವಣೆ</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/StoreTransfer/BankIndent.aspx">ಬ್ಯಾಂಕ್ ಇಂಡೆಂಟ್</a></li>
+                                </ul>
+                            </li>
+
+
+                            <li class="sub-menu" runat="server" id="liApproval">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-lock"></i>
+                                    <span>Approval</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <%--<li><a class="" href="/Approval/FormRoleMapping.aspx">Access Rights</a></li> 
+                        <li><a class="" href="/Approval/ApprovalPriority.aspx">Approval Priority</a></li>--%>
+                                    <li><a class="" href="/Approval/ApprovalInbox.aspx">My Approval Inbox</a></li>
+                                    <li><a class="" href="/Approval/ApprovalPending.aspx">Approve Pending Status</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanApproval" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-lock"></i>
+                                    <span>ಅನುಮೋದನೆ</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <%--  <li><a class="" href="/Approval/FormRoleMapping.aspx">ಪ್ರವೇಶ ಹಕ್ಕು</a></li> 
+                        <li><a class="" href="/Approval/ApprovalPriority.aspx">ಅನುಮೋದನೆ ಆದ್ಯತಾ</a></li> --%>
+                                    <li><a class="" href="/Approval/ApprovalInbox.aspx">ಅನುಮೋದನೆ ಇನ್ಬಾಕ್ಸ್</a></li>
+                                    <li><a class="" href="/Approval/ApprovalPending.aspx">ಬಾಕಿ ಉಳಿದಿರುವ ಸ್ಥಿತಿ ಅನುಮೋದಿಸಿ</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liTransaction">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-play"></i>
+                                    <span>Transaction</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <%--  <li><a class="" href="/Transaction/StockAlert.aspx">Stock Alert</a></li>
+                                    <li><a class="" href="/Transaction/StockStatus.aspx">Stock Status</a></li>--%>
+                                    <li><a class="" href="/Transaction/TcTracker.aspx">Transformer Tracker</a></li>
+                                    <li><a class="" href="/Transaction/DTCTracker.aspx">Transformer Centre Tracker</a></li>
+                                    <%--   <li><a class="" href="/Transaction/ExcelUpload.aspx">Excel Upload</a></li>--%>
+                                    <li><a class="" href="/Transaction/POTracker.aspx">PO Details</a></li>
+                                    <%-- <li><a class="" href="/Transaction/DTrAllocation1.aspx">DTR Allocation</a></li> --%>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanTransaction" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-play"></i>
+                                    <span>ವ್ಯವಹಾರ</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Transaction/StockAlert.aspx">ಸ್ಟಾಕ್ ಎಚ್ಚರಿಕೆ</a></li>
+                                    <li><a class="" href="/Transaction/StockStatus.aspx">ಸ್ಟಾಕ್ ಸ್ಥಿತಿ</a></li>
+                                    <li><a class="" href="/Transaction/TcTracker.aspx">ಡಿಟಆರ್ ಟ್ರಾಕರ್</a></li>
+                                    <li><a class="" href="/Transaction/DTCTracker.aspx">ಡಿಟಿಸಿ ಟ್ರಾಕರ್</a></li>
+                                    <li><a class="" href="/Transaction/ExcelUpload.aspx">ಎಕ್ಸೆಲ್ ಅಪ್ಲೋಡ್</a></li>
+                                    <li><a class="" href="/Transaction/POTracker.aspx">ಪಿಒ ವಿವರಗಳು</a></li>
+                                    <%--  <li><a class="" href="/Transaction/DTrAllocation1.aspx">ಡಿಟಆರ್ ನಿಗದಿ</a></li>--%>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="lioptReport">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-file"></i>
+                                    <span>Operational Reports</span>
+                                    <span class="arrow"></span>
+
+                                </a>
+                                <ul class="sub">
+
+                                    <li><a class="" href="/Reports/Capacitywise.aspx">Capacity wise</a></li>
+
+                                    <li><a class="" href="/Reports/BufferStock.aspx">Stock Status</a></li>
+
+                                    <li><a class="" href="/Reports/FailedOb.aspx">Failed Details</a></li>
+
+                                    <li><a class="" href="/Reports/DistrictWiseFailureOBAbstract.aspx">District Wise Failure Abstract Details</a></li>
+
+                                    <li><a class="" href="/Reports/DTrRepairCenterDetails.aspx">RepairCenter Details</a></li>
+
+                                    <li><a class="" href="/Reports/RepairerIncurred.aspx">Repairer Cost Details</a></li>
+
+                                    <li><a class="" href="/Reports/RepairerOb.aspx">Repairer DTr Details</a></li>
+
+                                    <li><a class="" href="/Reports/SchemeDetails.aspx">Scheme Wise DTr Details Report</a></li>
+
+                                    <li><a class="" href="/Reports/Detailsview.aspx">Procured Details</a></li>
+
+                                    <li><a class="" href="/Reports/ReplRepaireddetails.aspx">Replaced & repaired Details</a></li>
+
+                                    <li><a class="" href="/Reports/ReplacedDetails.aspx">Replaced Abstract</a></li>
+
+                                    <li><a class="" href="/Reports/AddedAbstract.aspx">Added Abstract</a></li>
+
+                                    <li><a class="" href="/Reports/Repairerabstract.aspx">Repair details Abstract</a></li>
+
+                                    <li><a class="" href="/Reports/DTRFailureAbstract.aspx">DTR FailureAbstract</a></li>
+                                    <li><a class="" href="/Reports/CircleWiseRepairerReport.aspx">Circle Wise Dtr Repairer Details</a></li>
+                                    <li><a class="" href="/Reports/FailureReplacement.aspx">Failure and Replacement</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liMainReport">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-file"></i>
+                                    <span>Reports</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Reports/DTrReport.aspx">Transformer Report</a></li>
+                                    <li><a class="" href="/Reports/DTCReport.aspx">Transformer Centre Report</a></li>
+                                    <li><a class="" href="/Reports/DetailedReport.aspx">ParameterWise Report</a></li>
+                                    <li><a class="" href="/Reports/DTCFailureReport.aspx">Transformer Center Failure Report</a></li>
+                                    <%--  <li><a class="" href="/Reports/PGRSReport.aspx">PGRS Report</a></li>--%>
+                                    <li><a class="" href="/Reports/AbstractReport.aspx">Abstract Report</a></li>
+                                    <li><a class="" href="/Reports/AbstractReportTcFaildAtFSR.aspx">Status of Failed TC</a></li>
+                                    <li><a class="" href="/Reports/DTCAddDetails.aspx">Transformer Centre Added Report</a></li>
+                                    <li><a class="" href="/Reports/CRegAbstract.aspx">Register Abstract Report</a></li>
+                                    <li><a class="" href="/Reports/RepairerTransformer.aspx">Reparier Performance</a></li>
+                                    <li><a class="" href="/Reports/DtrMakeWise.aspx">MakeWise Report</a></li>
+                                    <li><a class="" href="/Reports/DtrRepairerWise.aspx">RepairerWise Report</a></li>
+                                    <li><a class="" href="/Reports/EnumerationReport.aspx">Detailed Report</a></li>
+                                    <li><a class="" href="/Reports/EnumReport.aspx">Enumeration Report</a></li>
+                                    <li><a class="" target="_blank" href="/Reports/FailureReplacementTimeLine.aspx">FailureReplacement TimeLine</a></li>
+                                    <li><a class="" href="/Reports/RoleWisePending.aspx">Roles wise Approval pending count</a></li>
+                                    <li><a class="" href="/Reports/FailuresDailyReport.aspx">Daily Report</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKanMainReport" visible="false">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-file"></i>
+                                    <span>ವರದಿಗಳು</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Reports/DTrReport.aspx">ಡಿಟಆರ್ ವರದಿ</a></li>
+                                    <li><a class="" href="/Reports/DTCReport.aspx">ಡಿಟಿಸಿ ವರದಿ</a></li>
+                                    <li><a class="" href="/Reports/DetailedReport.aspx">ಪ್ಯಾರಾಮೀಟರ್ವೈಸ್ ವರದಿ</a></li>
+                                    <li><a class="" href="/Reports/DTCFailureReport.aspx">ಡಿಟಿಸಿ ವಿಫಲವಾದ ವರದಿ</a></li>
+                                    <li><a class="" href="/Reports/AbstractReport.aspx">ಅಮೂರ್ತ ವರದಿ</a></li>
+                                    <li><a class="" href="/Reports/AbstractReportTcFaildAtFSR.aspx">ಟಿಸಿ ವಿಫಲವಾದ ವಿವರಗಳು</a></li>
+                                    <li><a class="" href="/Reports/DTCAddDetails.aspx">ಡಿಟಿಸಿ ಸೇರಿಸಿದ ವರದಿ</a></li>
+                                    <li><a class="" href="/Reports/CRegAbstract.aspx">ನೋಂದಣಿ ಅಮೂರ್ತ ವಿವರಗಳು</a></li>
+                                    <li><a class="" href="/Reports/RepairerTransformer.aspx">ರಿಪೇರಿಯರ್ ಸಾಧನೆ ವಿವರಗಳು</a></li>
+                                    <li><a class="" href="/Reports/DtrMakeWise.aspx">ಡಿಟಆರ್ ತಯಾರಿಸು ವಿವರಗಳು</a></li>
+                                    <li><a class="" href="/Reports/DtrRepairerWise.aspx">ರೆಪೈರರ್ ವೈಸ್ ವಿವರಗಳು</a></li>
+                                    <li><a class="" target="_blank" href="/Reports/FailureReplacementTimeLine.aspx">ವೈಫಲ್ಯಬದಲಿ ಟೈಮ್ಲೈನ್</a></li>
+                                    <li><a class="" href="/Reports/Capacitywise.aspx">Capacity wise</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liInterDash" style="display: none">
+                                <a href="/Internal/InternalDashboard.aspx" class="">
+                                    <i class="icon-tasks"></i>
+                                    <span>Dashboard</span>
+                                    <span class="arrow"></span>
+                                </a>
+
+                            </li>
+
+                            <%--                            <li class="sub-menu" runat="server" id="liEnumeration" style="display: none">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-edit"></i>
+                                    <span>Enumeration</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+
+                                    <li><a class="" href="/Internal/StoreEnumeration.aspx">Store Enumeration</a></li>
+                                    <li><a class="" href="/Internal/FieldEnumeration.aspx">Field Enumeration</a></li>
+                                    <li><a class="" href="/Internal/EnumerationView.aspx">Enumeration View</a></li>
+
+                                </ul>
+                            </li>
+                            --%>
+                            <li class="sub-menu" runat="server" id="liQC" style="display: none">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-question"></i>
+                                    <span>QC</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Internal/QCApproval.aspx">QC Approval</a></li>
+                                    <li><a class="" href="/Internal/QcDoneView.aspx">QC Done</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liInterUser" style="display: none">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-home"></i>
+                                    <span>User Management</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Internal/InternalUserView.aspx">User Create</a></li>
+                                    <li><a class="" href="/Internal/InternalChangePwd.aspx">Change Password</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liInterReports" style="display: none">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-file"></i>
+                                    <span>Reports</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Reports/EnumerationReport.aspx">Detailed Report</a></li>
+                                    <li><a class="" href="/Reports/EnumReport.aspx">Enumeration Report</a></li>
+                                    <%--<li><a class="" href="/Query/BackEndActivity.aspx">BackEnd Operation</a></li>    --%>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liFeeder" style="display: none">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-flickr"></i>
+                                    <span>Feeder</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/MasterForms/FeederViewApp.aspx">Feeder View</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liEnumStage" style="display: none">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-tag"></i>
+                                    <span>Enum Stage</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Internal/EnumLevel.aspx">Enum Stage</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liVideoTutorial">
+                                <a href="/DashboardForm/TutorialVideos.aspx" class="">
+                                    <i class="icon-facetime-video"></i>
+                                    <span>Video Tutorials</span>
+                                    <span class="arrow"></span>
+                                </a>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="supportactivitys">
+                                <a href="javascript:;" class="">
+                                    <i class="icon-home"></i>
+                                    <span>Support Activities</span>
+                                    <span class="arrow"></span>
+                                </a>
+                                <ul class="sub">
+                                    <li><a class="" href="/Query/QryWizzSelect.aspx">Select Query Wizzard</a></li>
+                                    <li><a class="" href="/Query/QryWizzUpdate.aspx">Update Query Wizzard</a></li>
+                                    <li><a class="" href="/Query/FailureDateMissMatch.aspx">Failure Date Change</a></li>
+                                    <li><a class="" href="/Query/CommissionDateMissMatch.aspx">Commission Date MissMatch</a></li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="li1">
+                                <a href="/ContactUs.aspx" class="">
+                                    <i class="icon-info"></i>
+                                    <span>Help</span>
+                                    <span class="arrow"></span>
+                                </a>
+                            </li>
+
+                            <li class="sub-menu" runat="server" id="liKan1" style="display: none;">
+                                <a href="/ContactUs.aspx" class="">
+                                    <i class="icon-info"></i>
+                                    <span>ಸಹಾಯ</span>
+                                    <span class="arrow"></span>
+                                </a>
+                            </li>
+
+
+
+
+
+                        </ul>
+
+
+                        <!-- END SIDEBAR MENU -->
+                    </div>
+                </div>
+                <!-- END SIDEBAR -->
+                <!-- BEGIN PAGE -->
+                <div id="main-content">
+                    <!-- BEGIN PAGE CONTAINER-->
+                    <div class="container-fluid">
+                        <!-- BEGIN PAGE HEADER-->
+                        <div class="row-fluid">
+                            <div class="span12">
+                                <!-- BEGIN THEME CUSTOMIZER-->
+                                <%--    <div id="theme-change" class="hidden-phone">
+                       <i class="icon-cogs"></i>
+                        <span class="settings">
+                            <span class="text">Theme Color:</span>
+                            <span class="colors">
+                                <span class="color-default" data-style="default"></span>
+                                <span class="color-green" data-style="green"></span>
+                                <span class="color-gray" data-style="gray"></span>
+                                <span class="color-purple" data-style="purple"></span>
+                                <span class="color-red" data-style="red"></span>
+                            </span>
+                        </span>
+                   </div>--%>
+                                <!-- END THEME CUSTOMIZER-->
+                                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+                                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                </asp:ContentPlaceHolder>
+
+
+                                <!-- END PAGE TITLE & BREADCRUMB-->
+                            </div>
+                        </div>
+                        <!-- END PAGE HEADER-->
+                        <!-- BEGIN PAGE CONTENT-->
+
+
+                        <!-- END PAGE CONTENT-->
+                    </div>
+                    <!-- END PAGE CONTAINER-->
+                </div>
+                <!-- END PAGE -->
+            </div>
+            <!-- END CONTAINER -->
+
+            <!-- BEGIN FOOTER -->
+
+
+            <div id="footer">
+                version
+                <asp:Label ID="Version_Id" runat="server"></asp:Label>
+                Copyright © <span id="demo"></span>Idea Infinity IT Solutions Pvt. Ltd.(HESCOM) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<asp:Label ID="LastloginTime" runat="server" ForeColor="Blue"></asp:Label>
+                <%--<p>version v.1.4 copyright &copy; 2022 idea infinity it solutions pvt. ltd.</p>--%>
+            </div>
+            <!-- END FOOTER -->
+
+            <!-- BEGIN JAVASCRIPTS -->
+            <!-- Load javascripts at bottom, this will reduce page load time -->
+
+            <%--  <script src='<%= ResolveUrl("~/js/jquery-1.8.3.min.js") %>'></script>--%>
+            <script src='<%= ResolveUrl("~/Scripts/functions.js") %>' type="text/javascript"></script>
+
+            <%-- <script src='<%= ResolveUrl("~/js/jquery.nicescroll.js") %>' type="text/javascript"></script>--%>
+            <script type="text/javascript" src='<%= ResolveUrl("~/assets/jquery-slimscroll/jquery-ui-OneNineTwo.custom.min.js") %>'></script>
+            <script type="text/javascript" src='<%= ResolveUrl("~/assets/jquery-slimscroll/jquery.slimscroll.min.js") %>'></script>
+            <script src='<%= ResolveUrl("~/assets/fullcalendar/fullcalendar/fullcalendar.min.js") %>'></script>
+            <script src='<%= ResolveUrl("~/assets/bootstrap/js/bootstrap.min.js") %>'></script>
+
+            <!-- ie8 fixes -->
+            <!--[if lt IE 9]>
+   <script src="js/excanvas.js"></script>
+   <script src="js/respond.js"></script>
+   <![endif]-->
+
+            <script src='<%= ResolveUrl("~/assets/jquery-easy-pie-chart/jquery.easy-pie-chart.js") %>' type="text/javascript"></script>
+            <script src='<%= ResolveUrl("~/js/jquery.sparkline.js") %>' type="text/javascript"></script>
+            <script src='<%= ResolveUrl("~/assets/chart-master/Chart.js") %>'></script>
+            <script src='<%= ResolveUrl("~/js/jquery.scrollTo.min.js") %>'></script>
+
+
+            <!--common script for all pages-->
+            <script src='<%= ResolveUrl("~/js/common-scripts.js") %>'></script>
+
+            <!--script for this page only-->
+
+            <script src='<%= ResolveUrl("~/js/easy-pie-chart.js") %>'></script>
+            <script src='<%= ResolveUrl("~/js/sparkline-chart.js") %>'></script>
+            <script src='<%= ResolveUrl("~/js/home-page-calender.js") %>'></script>
+            <%--<script type="text/javascript" src='<%= ResolveUrl("~/js/home-chartjs.js") %>' ></script>--%>
+
+            <!-- END JAVASCRIPTS -->
+
+
+        </div>
+    </form>
+    <script type="text/javascript" language="javascript">
+        //There's a bug in Microsoft's Ajax script that stops the modal popups from working
+        //This overrides the the code that causes the error
+        Sys.UI.Point = function Sys$UI$Point(x, y) {
+
+            x = Math.round(x);
+            y = Math.round(y)
+            ;
+
+            var e = Function._validateParams(arguments, [
+                { name: "x", type: Number, integer: true },
+                { name: "y", type: Number, integer: true }
+            ]);
+            if (e) throw e;
+            this.x = x;
+            this.y = y;
+        }
+    </script>
+</body>
+</html>

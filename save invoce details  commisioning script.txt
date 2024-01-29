@@ -1,0 +1,72 @@
+CREATE OR REPLACE FUNCTION "public"."sp_save_invoice"(IN "sinvoiceno" text, IN "sinvoicedate" text, IN "sinvoicedescription" text, IN "samount" text, IN "sindentid" text, IN "screatedby" text, IN "smanualinvoiceno" text, IN "sdtcfailid" text, IN "stccode" text, OUT "op_id" text, OUT "msg" text)
+  RETURNS "pg_catalog"."record" AS $BODY$
+DECLARE
+SINVOICESLNO TEXT;
+STCDRAWNNO INT;
+SFAILOFFCODE TEXT;
+SDFID INT;
+indentid int;
+
+
+
+BEGIN
+
+--IF sdtcfailid is NULL THEN
+--	SDFID = NULL; 
+--ELSE
+--	SDFID = CAST(sDtcFailId AS INT);
+--END IF ;
+
+select "TI_ID" into indentid from "TBLINDENT" where "TI_WO_SLNO"=CAST(sIndentId AS NUMERIC);
+
+SELECT COALESCE(MAX("IN_NO"),0)+1 into SINVOICESLNO FROM "TBLDTCINVOICE";
+
+INSERT into "TBLDTCINVOICE" ("IN_NO","IN_INV_NO","IN_DATE","IN_DESC","IN_AMT","IN_TI_NO","IN_CRBY","IN_MANUAL_INVNO") VALUES (CAST(SINVOICESLNO AS INT),sInvoiceNo, cast(sInvoiceDate as timestamp)  , sInvoiceDescription, CAST(sAmount AS NUMERIC), CAST(indentid AS NUMERIC), CAST(sCreatedBy AS INT),sManualInvoiceNo);
+
+
+
+SELECT COALESCE(MAX("TD_ID"),0)+1 into STCDRAWNNO FROM "TBLTCDRAWN";
+
+
+
+IF sdtcfailid is NULL OR LENGTH(sdtcfailid) = 0 THEN
+	
+	INSERT INTO "TBLTCDRAWN" ("TD_ID","TD_DF_ID","TD_TC_NO","TD_INV_NO","TD_DESC","TD_CRON")
+VALUES(STCDRAWNNO, NULL , CAST(sTcCode AS varchar), CAST(SINVOICESLNO AS INT), sInvoiceDescription, NOW());
+
+ELSE
+	SDFID = CAST(sDtcFailId AS INT);
+	
+	INSERT INTO "TBLTCDRAWN" ("TD_ID","TD_DF_ID","TD_TC_NO","TD_INV_NO","TD_DESC","TD_CRON")
+VALUES(STCDRAWNNO, SDFID , CAST(sTcCode AS varchar), CAST(SINVOICESLNO AS INT), sInvoiceDescription, NOW());
+
+END IF ;
+
+
+
+IF (sDtcFailId != null or sDtcFailId != '')
+THEN
+SELECT "DF_LOC_CODE" into SFAILOFFCODE FROM "TBLDTCFAILURE" WHERE "DF_ID" = CAST(sDtcFailId AS INT);
+
+UPDATE "TBLTCMASTER" SET "TC_UPDATED_EVENT" ='Drawn', "TC_UPDATED_EVENT_ID" = STCDRAWNNO, "TC_CURRENT_LOCATION"=2, "TC_LOCATION_ID" = CAST(SFAILOFFCODE AS INT) WHERE "TC_CODE" = CAST(sTcCode AS varchar);
+
+ELSE
+SELECT "WO_REQUEST_LOC" into SFAILOFFCODE FROM "TBLWORKORDER","TBLINDENT" WHERE "WO_SLNO"="TI_WO_SLNO" AND "TI_ID" =indentid;
+
+UPDATE "TBLTCMASTER" SET "TC_UPDATED_EVENT" ='Drawn', "TC_UPDATED_EVENT_ID" = STCDRAWNNO, "TC_CURRENT_LOCATION"=2, "TC_LOCATION_ID" = CAST(SFAILOFFCODE AS INT) WHERE "TC_CODE" = CAST(sTcCode AS varchar);
+END IF ;
+
+
+
+"msg":='Saved Successfully';
+"op_id":= SINVOICESLNO;
+			
+END;
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+
+ALTER FUNCTION "public"."sp_save_invoice"("sinvoiceno" text, "sinvoicedate" text, "sinvoicedescription" text, "samount" text, "sindentid" text, "screatedby" text, "smanualinvoiceno" text, "sdtcfailid" text, "stccode" text, OUT "op_id" text, OUT "msg" text) OWNER TO "postgres";
+
+
+
